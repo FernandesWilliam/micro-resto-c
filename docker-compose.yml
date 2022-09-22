@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  front-end:
+    image: micro-restaurant/self-service-kiosk
+    ports:
+      - "${FRONT_PORT}:3000"
+    depends_on:
+      - ${GATEWAY}
+      - ${MENU_SERVICE}
+      - ${KITCHEN_SERVICE}
+      - ${DINING_SERVICE}
+    environment:
+      - GATEWAY_URL_WITH_PORT=${GATEWAY}:3000
+      - MENU_SERVICE_URL_WITH_PORT=${MENU_SERVICE}:3000
+      - KITCHEN_SERVICE_URL_WITH_PORT=${KITCHEN_SERVICE}:3000
+      - DINING_SERVICE_URL_WITH_PORT=${DINING_SERVICE}:3000
+    volumes:
+      - ./self-service-kiosk/:/self-service-kiosk/
+    entrypoint: "bash -c './wait-for-it.sh $${GATEWAY_URL_WITH_PORT} -- npm run start'"
+    networks:
+      - nestjs-restaurant-network
+
+  front-end-bff:
+    image: micro-restaurant/self-service-kiosk-bff
+    depends_on:
+      - bff
+    ports:
+      - "${FRONT_BFF_PORT}:3000"
+    environment:
+      - BFF_HOST=bff:3000
+    volumes:
+      - ./self-service-kiosk/:/self-service-kiosk/
+    entrypoint: "bash -c './wait-for-it.sh $${BFF_HOST} -- npm run start'"
+    networks:
+      - nestjs-restaurant-network
+
+  bff:
+    image: micro-restaurant/bff
+    ports:
+      - "${BFF_PORT}:3000"
+    depends_on:
+      - ${GATEWAY}
+      - ${MENU_SERVICE}
+      - ${KITCHEN_SERVICE}
+      - ${DINING_SERVICE}
+    environment:
+      - GATEWAY_URL_WITH_PORT=${GATEWAY}:3000
+      - MENU_SERVICE_URL_WITH_PORT=${MENU_SERVICE}:3000
+      - KITCHEN_SERVICE_URL_WITH_PORT=${KITCHEN_SERVICE}:3000
+      - DINING_SERVICE_URL_WITH_PORT=${DINING_SERVICE}:3000
+    volumes:
+      - ./bff/:/bff/
+    entrypoint: "bash -c './wait-for-it.sh $${GATEWAY_URL_WITH_PORT} -- npm run start:dev'"
+    networks:
+      - nestjs-restaurant-network
+
+networks:
+  nestjs-restaurant-network:
+    driver: bridge
