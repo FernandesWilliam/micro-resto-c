@@ -1,0 +1,8 @@
+li {
+    color: forestgreen;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}

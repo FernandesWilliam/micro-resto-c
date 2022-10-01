@@ -1,0 +1,11 @@
+h1 {
+    text-align: center;
+}
+
+h1 > span:first-child {
+    color: deepskyblue;
+}
+
+h1 > span:last-child {
+    color: indianred;
+}
