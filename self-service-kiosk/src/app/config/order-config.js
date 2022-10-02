@@ -60,6 +60,7 @@ export default {
          * return the new state of the items list
          */
         addItemToOrder: async ({orderID, menuItem, menuItemShortName, howMany}) => {
+
             let diningPort = 9500;
             let option = postOption(JSON.stringify(
                 {
