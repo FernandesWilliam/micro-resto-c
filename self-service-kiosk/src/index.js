@@ -3,7 +3,8 @@ import {createRoot} from 'react-dom/client';
 import {Provider} from 'react-redux';
 import {store} from './app/store/store.js';
 import './index.css';
-import {Home} from "./app/views/home/home.js";
+import {Test} from "./app/views/test.js";
+
 
 
 const container = document.getElementById('root');
@@ -11,7 +12,7 @@ const root = createRoot(container);
 
 root.render(
     <Provider store={store}>
-        <Home/>
+        <Test/>
     </Provider>
 );
 
