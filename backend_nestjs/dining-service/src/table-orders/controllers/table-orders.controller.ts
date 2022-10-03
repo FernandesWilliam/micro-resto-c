@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Delete } from '@nestjs/common';
 import {
   ApiBody,
   ApiUnprocessableEntityResponse,
@@ -60,6 +60,12 @@ export class TableOrdersController {
   @Post(':tableOrderId')
   async addMenuItemToTableOrder(@Param() getTableOrderParams: GetTableOrderParams, @Body() addMenuItemDto: AddMenuItemDto): Promise<TableOrder> {
     return this.tableOrdersService.addOrderingLineToTableOrder(getTableOrderParams.tableOrderId, addMenuItemDto);
+  }
+
+
+  @Delete(':tableOrderId/:menuItemId')
+  async deleteMenuItemFromOrders(@Param('tableOrderId') tableOrderId:string, @Param('menuItemId') menuItemId: string ) {
+    return this.tableOrdersService.deleteOrderingLineFromTableOrder(tableOrderId, menuItemId);
   }
 
   @ApiParam({ name: 'tableOrderId' })
