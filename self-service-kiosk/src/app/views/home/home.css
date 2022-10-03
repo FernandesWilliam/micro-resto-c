@@ -1,0 +1,31 @@
+
+#menu-list{
+    display: flex;
+    height: 80%;
+    width: 80%;
+    flex-wrap: wrap;
+    gap:10px;
+    justify-content: center;
+}
+
+
+.img-display{
+    max-width: 300px;
+    max-height: 400px;
+    width: auto;
+    height: auto;
+}
+
+.item-card {
+
+    background: red;
+    height: 300px;
+    width:300px;
+
+}
+
+#filters{
+    display: flex;
+
+    gap: 10px;
+}
