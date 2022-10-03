@@ -45,7 +45,6 @@ export const selectItemsOrder = (state) => {
 }
 
 
-
 /**
  * Thunk that send the current order to preparation phase
  */

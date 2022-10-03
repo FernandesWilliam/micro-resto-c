@@ -51,6 +51,7 @@ export default {
             }));
             // create an order
             let order = await extractBody(`http://localhost:${diningPort}/dining/tableOrders`, option);
+
             console.log(order['_id'], table['number']);
             // return the order id
             return order['_id'];
