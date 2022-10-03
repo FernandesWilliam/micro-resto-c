@@ -11,25 +11,3 @@
     font-variant: small-caps;
     text-transform: none;
 }
-
-
-
-#start {
-    background-color: aqua;
-    height: 200px;
-    width: 60%;
-    justify-content: center;
-    text-align: center;
-}
-
-#around {
-    justify-content: center;
-    align-content: center;
-}
-
-#logo {
-    height: 200px;
-    width: 200px;
-    background-color: fuchsia;
-}
-

@@ -19,15 +19,19 @@ export const getMenusAsync = createAsyncThunk(
  * Get all existing menus
  */
 export const selectMenus = (state) => state.catalog.menus;
+
 /**
  * Get selected Menu
+ * @param menus
  * @param id u could specify the given id
  */
-export const selectMenuByID = (state, id) => state.catalog.menus.filter((menu) => menu._id === id)[0];
+export const selectMenuByID = (menus, id) => menus.filter((menu) => menu._id === id)[0];
+
+
+
+
+
 /****************** SELECTOR *************************/
-
-
-
 export const catalogSlice = createSlice({
     name: 'catalog',
     initialState,

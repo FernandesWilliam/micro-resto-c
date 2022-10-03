@@ -33,6 +33,18 @@ export const removeItemToOrderAsync = createAsyncThunk(
     orderConfig[process.env.REACT_APP_CONFIG]['removeItemToOrder']
 );
 
+/**
+ * Thunk that get the order ID
+ */
+export const selectIdOrder = (state) => {
+    return state.order.currentOrderId;
+}
+
+export const selectItemsOrder = (state) => {
+    return state.order.orderItems;
+}
+
+
 
 /**
  * Thunk that send the current order to preparation phase

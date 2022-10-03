@@ -1,37 +1,36 @@
 import {useDispatch, useSelector} from "react-redux";
-import {getMenusAsync, selectMenus, getMenuByID} from "../../store/catalog-store.js";
+import React, { useState } from 'react';
+import {getMenusAsync, selectMenus, getMenuByID, selectMenuByID} from "../../store/catalog-store.js";
 import {useEffect} from "react";
 import './home.css';
+import {Menu} from "../menu/menu";
+import {startOrderAsync} from "../../store/order-store";
+import {useNavigate} from "react-router-dom"
+
 
 export function Home() {
-
-    const menus = useSelector(selectMenus);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
     useEffect(() => {
-        dispatch(getMenusAsync());
+        dispatch(startOrderAsync())
     }, []);
 
 
-    return <div>
-        <h1>MIAMMIAM</h1>
-        Il y a {menus.length} menus disponible
-        <div id={'filters'}>
-            <span>Starter</span>
-            <span>Main</span>
-            <span>Dessert</span>
-            <span>Beverage</span>
-        </div>
-        <div id={'menu-list'}>
-            {menus.map(({image, category, shortName, price},index) => <div className={'item-card'} key={index}>
-                    <div>{shortName} {price}</div>
-                    <img src={image} className={'img-display'}/>
-                    <div>
-                        {category}
-                    </div>
-                </div>
-            )}
-        </div>
+    function start() {
+        navigate("/menu");
 
+    }
+
+    return <div>
+        <h1 id={'titles'}>MiamMiam</h1>
+        <div id={"around"}>
+            <div id={"logo"}> Logo </div>
+            <div id={'start'} onClick={()=>start()}>
+                Touch to start the order.
+            </div>
+
+        </div>
 
     </div>;
 
