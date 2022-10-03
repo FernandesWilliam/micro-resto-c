@@ -1,0 +1,123 @@
+#plus-minus{
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+#drawer{
+    display: flex;
+    justify-content: space-evenly;
+}
+#i{
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+#order{
+    justify-content: space-between;
+    display: inline-block;
+}
+.footer {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+.main{
+    position: relative;
+    min-height: 100vh;
+}
+
+#titles{
+    text-align: center;
+    font-family: Impact, Charcoal, sans-serif;
+    font-size: 40px;
+    letter-spacing: -1.4px;
+    word-spacing: -0.8px;
+    color: #AA4465;
+    font-weight: 400;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+}
+#filters{
+    display: flex;
+    text-align: center;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+#filters:focus {
+    color: lightgray;
+}
+.item-card {
+    background-color: #DDFFF7;
+    height: 100%;
+    width:100%;
+    border-radius: 1rem;
+    transition: all 300ms ease-in-out;
+}
+#menu-list{
+    padding: 10px;
+    column-count: 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+}
+
+
+.img-display{
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+    border-top-right-radius: 1rem;
+    border-top-left-radius: 1rem;
+
+}
+.button-1 {
+    background-color: #EA4C89;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    float: left
+}
+
+#price{
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+#dish{
+    text-transform: capitalize;
+}
+
+#description{
+    padding-left: 2%;
+    padding-right: 2%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+
