@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Delete } from '@nestjs/common';
 import {
   ApiBody,
   ApiUnprocessableEntityResponse,
@@ -59,7 +59,14 @@ export class TableOrdersController {
   @ApiUnprocessableEntityResponse({ type: TableOrderAlreadyBilledException, description: 'TableOrder is already billed' })
   @Post(':tableOrderId')
   async addMenuItemToTableOrder(@Param() getTableOrderParams: GetTableOrderParams, @Body() addMenuItemDto: AddMenuItemDto): Promise<TableOrder> {
+    console.log('passing by here iam a controller');
     return this.tableOrdersService.addOrderingLineToTableOrder(getTableOrderParams.tableOrderId, addMenuItemDto);
+  }
+
+
+  @Delete(':tableOrderId/:menuItemId')
+  async deleteMenuItemFromOrders(@Param('tableOrderId') tableOrderId:string, @Param('menuItemId') menuItemId: string ) {
+    return this.tableOrdersService.deleteOrderingLineFromTableOrder(tableOrderId, menuItemId);
   }
 
   @ApiParam({ name: 'tableOrderId' })
