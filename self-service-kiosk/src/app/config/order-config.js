@@ -51,7 +51,8 @@ export default {
             }));
             // create an order
             let order = await extractBody(`http://localhost:${diningPort}/dining/tableOrders`, option);
-            console.log(order['_id'],table['number']);
+
+            console.log(order['_id'], table['number']);
             // return the order id
             return order['_id'];
         },
@@ -59,7 +60,7 @@ export default {
          * Add in dining service a new item menus.
          * return the new state of the items list
          */
-        addItemToOrder: async (orderID, {menuItem, menuItemShortName, howMany}) => {
+        addItemToOrder: async ({orderID, menuItem, menuItemShortName, howMany}) => {
             let diningPort = 9500;
             let option = postOption(JSON.stringify(
                 {

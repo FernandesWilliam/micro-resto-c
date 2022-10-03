@@ -12,12 +12,14 @@ import {Recap} from "./app/views/recap/recap";
 import {End} from "./app/views/end/end";
 
 
+
 const container = document.getElementById('root');
 const root = createRoot(container);
 
 
 root.render(
     <Provider store={store}>
+
         <BrowserRouter>
             <Routes>
                 <Route exact path="/" element={<Home/>}/>
@@ -27,6 +29,9 @@ root.render(
 
             </Routes>
         </BrowserRouter>
+
+   
+
     </Provider>
 );
 

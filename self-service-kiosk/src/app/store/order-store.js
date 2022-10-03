@@ -55,6 +55,15 @@ export const sendOrderToPreparationAsync = createAsyncThunk(
 );
 /****************** THUNK **********************/
 
+/**
+ * Thunk that send the current order to preparation phase
+ */
+export const sendOrderToPreparationAsync = createAsyncThunk(
+    'send/order',
+    orderConfig[process.env.REACT_APP_CONFIG]['sendOrderToPreparation']
+);
+/****************** THUNK **********************/
+
 /****************** SELECTOR *************************/
 //const selectOrderByID = (state, id) => state.order.orderItems[id];
 /****************** SELECTOR *************************/
