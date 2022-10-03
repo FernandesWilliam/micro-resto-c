@@ -86,7 +86,7 @@ export const orderSlice = createSlice({
         });
 
         builder.addCase(removeItemToOrderAsync.fulfilled, (state, action) => {
-            // in the future
+            state.orderItems = action.payload;
         });
 
         /***

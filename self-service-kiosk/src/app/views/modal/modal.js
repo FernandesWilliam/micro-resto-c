@@ -39,7 +39,12 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                 howMany: data.nb
             }));
         }
-        setData({nb: 0, price: item.price})
+        setData({nb: 0, price: 0})
+    }
+
+    function quit(){
+        hide();
+        setData({nb: 0, price: 0})
     }
 
     return isShowing
@@ -55,7 +60,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                                 <button
                                     type="button"
                                     className="modal-close-button"
-                                    onClick={hide}>
+                                    onClick={quit}>
                                     <span>&times;</span>
                                 </button>
                             </div>

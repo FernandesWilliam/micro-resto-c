@@ -75,13 +75,11 @@ export function Menu() {
     }
 
 
-    async function removeItem(itemId, itemShortName, howMany) {
+    async function removeItem(itemId, howMany) {
         if (howMany > 0) {
             await dispatch(removeItemToOrderAsync({
                 orderID: idOrder,
-                menuItem: itemId,
-                menuItemShortName: itemShortName,
-                howMany: 1
+                menuItem: itemId
             }));
         }
     }
@@ -93,7 +91,6 @@ export function Menu() {
             menuItemShortName: itemShortName,
             howMany: 1
         }));
-        console.log(orderItemsInState)
     }
 
     return <div className={"main"}>
@@ -144,7 +141,7 @@ export function Menu() {
                         <div id={"plus-minus"}>
                             <div id={"plus-minus"}>
                                 <i className="fa fa-minus" id={"i"}
-                                   onClick={() => removeItem(item._id, item.shortName, howMany)}></i>
+                                   onClick={() => removeItem(item._id, howMany)}></i>
                                 <div>{howMany}</div>
                                 <i className="fa fa-plus" id={"i"}
                                    onClick={() => addItem(item._id, item.shortName)}></i>
