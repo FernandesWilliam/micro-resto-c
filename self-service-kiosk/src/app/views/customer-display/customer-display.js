@@ -1,21 +1,22 @@
-import {useEffect, useState} from "react";
-//import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import './customer-display.css';
 import {Title} from "../title/title";
-import {NumberList} from "../number-list/number-list";
+import {OrderList} from "../order-list/order-list";
+import { getPreparationsStarted, getPreparationsReady } from "../../store/preparation-store";
 
 export function CustomerDisplay() {
-    //const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    const [startedOrders, setStartedOrders] = useState([492, 495, 496]);
+    const ordersStarted = useSelector((state) => state.preparations.started);
     useEffect(() => {
-        //setStartedOrders(dispatch(/* add store method */))
-    }, startedOrders);
+        dispatch(getPreparationsStarted());
+    }, [ dispatch, ordersStarted ]);
 
-    const [completedOrders, setCompletedOrders] = useState([493, 494]);
+    const ordersReady = useSelector((state) => state.preparations.ready);
     useEffect(() => {
-        //setCompletedOrders(dispatch(/* add store method */))
-    }, completedOrders);
+        dispatch(getPreparationsReady());
+    }, [ dispatch, ordersReady ]);
 
     return (
         <div id="customer-display">
@@ -27,12 +28,12 @@ export function CustomerDisplay() {
             <div id="main-content">
                 <div>
                     <h3>Started</h3>
-                    <NumberList numbers={startedOrders} />
+                    <OrderList orders={ordersStarted} color="darkorange" />
                 </div>
 
                 <div>
                     <h3>Ready</h3>
-                    <NumberList numbers={completedOrders} />
+                    <OrderList orders={ordersReady} color="forestgreen" />
                 </div>
             </div>
         </div>

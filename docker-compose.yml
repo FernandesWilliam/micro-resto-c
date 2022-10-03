@@ -12,9 +12,10 @@ services:
       - ${DINING_SERVICE}
     environment:
       - GATEWAY_URL_WITH_PORT=${GATEWAY}:3000
-      - MENU_SERVICE_URL_WITH_PORT=${MENU_SERVICE}:3000
-      - KITCHEN_SERVICE_URL_WITH_PORT=${KITCHEN_SERVICE}:3000
-      - DINING_SERVICE_URL_WITH_PORT=${DINING_SERVICE}:3000
+      - MENU_SERVICE_URL_WITH_PORT=localhost:9500/menu
+      - REACT_APP_KITCHEN_URL=localhost:9500/kitchen
+      - DINING_SERVICE_URL_WITH_PORT=localhost:9500/dining
+      - REACT_APP_CONFIG=fm
     volumes:
       - ./self-service-kiosk/:/self-service-kiosk/
     entrypoint: "bash -c './wait-for-it.sh $${GATEWAY_URL_WITH_PORT} -- npm run start'"
@@ -29,6 +30,7 @@ services:
       - "${FRONT_BFF_PORT}:3000"
     environment:
       - BFF_HOST=bff:3000
+      - REACT_APP_CONFIG=bff
     volumes:
       - ./self-service-kiosk/:/self-service-kiosk/
     entrypoint: "bash -c './wait-for-it.sh $${BFF_HOST} -- npm run start'"
@@ -46,9 +48,9 @@ services:
       - ${DINING_SERVICE}
     environment:
       - GATEWAY_URL_WITH_PORT=${GATEWAY}:3000
-      - MENU_SERVICE_URL_WITH_PORT=${MENU_SERVICE}:3000
-      - KITCHEN_SERVICE_URL_WITH_PORT=${KITCHEN_SERVICE}:3000
-      - DINING_SERVICE_URL_WITH_PORT=${DINING_SERVICE}:3000
+      - MENU_SERVICE_URL_WITH_PORT=localhost:9500/menu
+      - KITCHEN_URL=localhost:9500/kitchen
+      - DINING_SERVICE_URL_WITH_PORT=localhost:9500/dining
     volumes:
       - ./bff/:/bff/
     entrypoint: "bash -c './wait-for-it.sh $${GATEWAY_URL_WITH_PORT} -- npm run start:dev'"
