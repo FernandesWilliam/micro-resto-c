@@ -20,6 +20,7 @@ import { KitchenProxyService } from './kitchen-proxy.service';
 import { TableOrderIdNotFoundException } from '../exceptions/table-order-id-not-found.exception';
 import { AddMenuItemDtoNotFoundException } from '../exceptions/add-menu-item-dto-not-found.exception';
 import { TableOrderAlreadyBilledException } from '../exceptions/table-order-already-billed.exception';
+import { DeleteMenuItemNotFoundException } from '../exceptions/delete-menu-item-not-found.exception';
 
 @Injectable()
 export class TableOrdersService {
@@ -57,7 +58,6 @@ export class TableOrdersService {
 
   async addOrderingLineToTableOrder(tableOrderId: string, addMenuItemDto: AddMenuItemDto): Promise<TableOrder> {
     const tableOrder: TableOrder = await this.findOne(tableOrderId);
-
     if (tableOrder.billed !== null) {
       throw new TableOrderAlreadyBilledException(tableOrder);
     }
@@ -72,14 +72,43 @@ export class TableOrdersService {
       throw new AddMenuItemDtoNotFoundException(addMenuItemDto);
     }
 
-    const orderingLine: OrderingLine = new OrderingLine();
-    orderingLine.item = orderingItem;
-    orderingLine.howMany = addMenuItemDto.howMany;
+    const orderLines = tableOrder.lines;
+    const lineIndex = orderLines.findIndex(line => line.item?._id === addMenuItemDto.menuItemId );
+
+    if(lineIndex !== -1) {
+      orderLines[lineIndex].howMany += addMenuItemDto.howMany;
+    }
+    else{
+      const orderingLine: OrderingLine = new OrderingLine();
+      orderingLine.item = orderingItem;
+      orderingLine.howMany = addMenuItemDto.howMany;
+      orderLines.push(orderingLine);
+    }
 
     return this.tableOrderModel.findByIdAndUpdate(
       tableOrder._id,
-      { $push: { lines: orderingLine } },
+      { $set: { lines: orderLines } },
       { returnDocument: 'after' },
+    );
+  }
+
+  async deleteOrderingLineFromTableOrder(tableOrderId: string, menuItemId: string) {
+    const tableOrder: TableOrder = await this.findOne(tableOrderId);
+
+    if (tableOrder.billed !== null) {
+      throw new TableOrderAlreadyBilledException(tableOrder);
+    }
+
+    const orderingLine: OrderingLine = tableOrder.lines.find(line => line.item._id === menuItemId);
+    if(orderingLine === undefined)
+      throw new DeleteMenuItemNotFoundException(menuItemId);
+    orderingLine.howMany  === 1 
+      ? tableOrder.lines = tableOrder.lines.filter(orderingLine => orderingLine.item._id !== menuItemId) 
+      : orderingLine.howMany--;
+    return this.tableOrderModel.findByIdAndUpdate(
+      tableOrder._id,
+      { lines: tableOrder.lines },
+      { new: true },
     );
   }
 
