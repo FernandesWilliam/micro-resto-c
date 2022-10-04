@@ -23,7 +23,7 @@ export default {
         removeItemToOrder: async (orderID) => {
 
         },
-        sendItemToPreparation: async () => {
+        sendItemToPreparation: async ({orderId}) => {
 
         }
 
@@ -73,6 +73,13 @@ export default {
         },
         removeItemToOrder: async (orderID) => {
 
+        },
+        sendItemToPreparation: async ({orderId}) => {
+            const DINING_HOST = process.env.REACT_APP_DINING_URL;
+            return await fetch(`http://${DINING_HOST}/tableOrders/${orderId}/prepare`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
         }
     }
 };
