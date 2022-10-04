@@ -14,6 +14,7 @@ export const preparationConfig = {
         }
     },
     'bff': {
+        // Bff part is mock as the BFF is not yet implemented
         fetchPreparationsStarted: async () => {
             return [
                 {_id: 492},
