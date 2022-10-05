@@ -51,6 +51,7 @@ export default {
             }));
             // create an order
             let order = await extractBody(`http://localhost:${diningPort}/dining/tableOrders`, option);
+
             console.log(order['_id'], table['number']);
             // return the order id
             return order['_id'];
@@ -60,6 +61,7 @@ export default {
          * return the new state of the items list
          */
         addItemToOrder: async ({orderID, menuItem, menuItemShortName, howMany}) => {
+
             let diningPort = 9500;
             let option = postOption(JSON.stringify(
                 {
@@ -71,9 +73,19 @@ export default {
             let order = await extractBody(`http://localhost:${diningPort}/dining/tableOrders/${orderID}`, option);
             return order['lines'];
         },
-        removeItemToOrder: async (orderID) => {
 
+        removeItemToOrder: async ({orderID, menuItem}) => {
+            let diningPort = 9500;
+            let option =
+                {
+                    method : "DELETE"
+                }
+            let order = await extractBody(`http://localhost:${diningPort}/dining/tableOrders/${orderID}/${menuItem}`, option);
+            console.log(order)
+            return order['lines'];
         }
+
+
     }
 };
 
