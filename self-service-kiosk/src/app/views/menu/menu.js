@@ -21,6 +21,7 @@ import {useNavigate} from "react-router-dom";
 
 /**
  * filter to get all distinct element in a list
+ * https://stackoverflow.com/questions/1960473/get-all-unique-values-in-a-javascript-array-remove-duplicates
  */
 function onlyUnique(value, index, self) {
     return self.indexOf(value) === index;
@@ -114,7 +115,7 @@ export function Menu() {
             )}
         </div>
 
-        <div className={"footer"} onClick={openOrder}>
+        <div className={"footer"} onClick={ () =>setOpen(true)}>
             <div id={"drawer"}>
                 <div id={'order-items'}>
                     {orderItems.slice(0, 3).map(({item, howMany}) =>
@@ -133,7 +134,7 @@ export function Menu() {
         <BottomSheet
 
             open={open}
-            onDismiss={onDismiss}
+            onDismiss={ () =>setOpen(false)}
             snapPoints={({minHeight}) => minHeight}>
             <div id={"drawer"}>
                 <div id={'order-items'}>

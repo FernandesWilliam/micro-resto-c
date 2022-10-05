@@ -17,7 +17,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
 
     const [data, setData] = useState({
         nb: 0,
-        price: item === undefined ? 0 : item.price
+        price: item?.price || 0
     });
 
     function addItem() {
