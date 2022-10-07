@@ -58,6 +58,7 @@ export class TableOrdersService {
 
   async addOrderingLineToTableOrder(tableOrderId: string, addMenuItemDto: AddMenuItemDto): Promise<TableOrder> {
     const tableOrder: TableOrder = await this.findOne(tableOrderId);
+
     if (tableOrder.billed !== null) {
       throw new TableOrderAlreadyBilledException(tableOrder);
     }
@@ -105,6 +106,7 @@ export class TableOrdersService {
     orderingLine.howMany  === 1 
       ? tableOrder.lines = tableOrder.lines.filter(orderingLine => orderingLine.item._id !== menuItemId) 
       : orderingLine.howMany--;
+
     return this.tableOrderModel.findByIdAndUpdate(
       tableOrder._id,
       { lines: tableOrder.lines },
