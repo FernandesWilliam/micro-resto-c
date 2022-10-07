@@ -7,7 +7,7 @@ import { CustomerDisplay } from "./app/views/customer-display/customer-display";
 import {Helmet} from "react-helmet";
 import {Menu} from "./app/views/menu/menu";
 
-import {BrowserRouter, BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import {Home} from "./app/views/home/home";
 import {Recap} from "./app/views/recap/recap";

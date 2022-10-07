@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {
     getMenusAsync,
     selectMenus
@@ -18,6 +18,7 @@ import {
     startOrderAsync
 } from "../../store/order-store";
 import {useNavigate} from "react-router-dom";
+import {Title} from "../title/title";
 
 /**
  * filter to get all distinct element in a list
@@ -38,7 +39,7 @@ export function Menu() {
         dispatch(getMenusAsync());
         // move to home
         dispatch(startOrderAsync())
-    }, []);
+    }, [dispatch]);
 
     const menus = useSelector(selectMenus);
     const idOrder = useSelector(selectIdOrder)
@@ -95,7 +96,7 @@ export function Menu() {
     }
 
     return <div className={"main"}>
-        <h1 id={'titles'}>MiamMiam</h1>
+        <Title />
         <div id={'filters'}>
             {categories.map((cat, i) =>
                 <div onClick={() => changeCat(cat)}>{cat}</div>
@@ -106,7 +107,7 @@ export function Menu() {
                      onClick={() => {
                          toggle(_id, idOrder);
                      }}>
-                    <img src={image} className={'img-display'}/>
+                    <img src={image} className={'img-display'} alt={'Failure loading'}/>
                     <div id={'description'}>
                         <div id={'dish'}>{shortName}  </div>
                         <div id={'price'}>{price} €</div>

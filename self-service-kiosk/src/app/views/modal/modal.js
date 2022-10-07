@@ -12,7 +12,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
 
     useEffect(() => {
         dispatch(getMenusAsync());
-    }, []);
+    }, [dispatch]);
     const item = selectMenuByID(menus, itemId);
 
     const [data, setData] = useState({
@@ -64,7 +64,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                                     <span>&times;</span>
                                 </button>
                             </div>
-                            <img src={item.image} className={'img-display'}/>
+                            <img src={item.image} className={'img-display'} alt={'Failure loading'}/>
                             <div id={"add"}>
                                 <div id={"remove-add"}>
                                     <i className="fa fa-minus" id={"i"} onClick={removeItem}></i>
@@ -75,7 +75,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                                 <div className="price">{data.price}€</div>
                             </div>
                             <div id={"add-card"}>
-                                <button class="button-1" role="button" onClick={() => {
+                                <button class="button-1" onClick={() => {
                                     addToCard();
                                     hide(itemId, idOrder);
                                 }}>Add to card

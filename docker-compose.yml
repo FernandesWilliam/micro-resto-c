@@ -11,14 +11,14 @@ services:
       - ${KITCHEN_SERVICE}
       - ${DINING_SERVICE}
     environment:
-      - GATEWAY_URL_WITH_PORT=${GATEWAY}:3000
-      - MENU_SERVICE_URL_WITH_PORT=localhost:9500/menu
+      - REACT_APP_GATEWAY=${GATEWAY}:3000
+      - REACT_APP_MENU_URL=localhost:9500/menu
       - REACT_APP_KITCHEN_URL=localhost:9500/kitchen
       - REACT_APP_DINING_URL=localhost:9500/dining
       - REACT_APP_CONFIG=fm
     volumes:
       - ./self-service-kiosk/:/self-service-kiosk/
-    entrypoint: "bash -c './wait-for-it.sh $${GATEWAY_URL_WITH_PORT} -- npm run start'"
+    entrypoint: "bash -c './wait-for-it.sh $${REACT_APP_GATEWAY} -- npm run start'"
     networks:
       - nestjs-restaurant-network
 
