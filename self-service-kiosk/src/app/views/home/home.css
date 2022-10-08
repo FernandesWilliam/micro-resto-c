@@ -1,19 +1,38 @@
 #start {
-    background-color: aqua;
-    height: 200px;
     width: 60%;
-    justify-content: center;
-    text-align: center;
+    height: 150px;
+    display: table;
+    margin-bottom: 10%;
 }
+
+#start p {
+    cursor: pointer;
+    border-radius: 45px;
+    box-shadow: 5px 5px 5px #660000;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: rgba(204,25,0,0.4);
+    color:white;
+    text-align: center;
+    font: 900 35px sans-serif;
+    margin-bottom: 100px;
+}
+
 
 #around {
     justify-content: center;
     align-content: center;
+    align-items: center;
+    background-color: #FF5700;
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
 }
 
-#logo {
-    height: 200px;
-    width: 200px;
-    background-color: fuchsia;
-}
 
+ 
+#around img {
+    height: 40%;
+    width: 40%;
+    margin: 20% 0;
+}

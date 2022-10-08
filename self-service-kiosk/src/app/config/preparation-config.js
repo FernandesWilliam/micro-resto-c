@@ -1,4 +1,5 @@
 const KITCHEN_HOST = process.env.REACT_APP_KITCHEN_URL;
+const BFF_HOST = process.env.REACT_APP_BFF_HOST;
 
 export const preparationConfig = {
     'fm': {
@@ -16,17 +17,10 @@ export const preparationConfig = {
     'bff': {
         // Bff part is mock as the BFF is not yet implemented
         fetchPreparationsStarted: async () => {
-            return [
-                {_id: 492},
-                {_id: 495},
-                {_id: 496}
-            ];
+            return await (await fetch(`http://${BFF_HOST}/preparations?state=preparationStarted`)).json()
         },
         fetchPreparationsReady: async () => {
-            return [
-                {_id: 493},
-                {_id: 494}
-            ];
+            return await (await fetch(`http://${BFF_HOST}/preparations?state=readyToBeServed`)).json()
         }
     }
 }

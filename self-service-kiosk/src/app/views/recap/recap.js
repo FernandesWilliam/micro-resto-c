@@ -1,6 +1,8 @@
 import {useDispatch, useSelector} from "react-redux";
 import React, {useEffect} from "react";
-import {getMenusAsync} from "../../store/catalog-store";
+import {
+    selectMenus
+} from "../../store/catalog-store.js";
 import {
     addItemToOrderAsync,
     removeItemToOrderAsync,
@@ -8,17 +10,22 @@ import {
     selectItemsOrder, sendOrderToPreparationAsync,
     startOrderAsync
 } from "../../store/order-store";
-import "../menu/menu.css"
+import "./recap.css"
 import {useNavigate} from "react-router-dom";
 import {Title} from "../title/title";
+import { RecapLine } from "./recap-line/recap-line";
+
+
 
 
 export function Recap() {
+
+    const menus = useSelector(selectMenus);
     const navigate = useNavigate();
 
     const idOrder = useSelector(selectIdOrder)
     const orderItemsInState = useSelector(selectItemsOrder)
-    const orderItems = orderItemsInState === undefined ? [] : orderItemsInState;
+    const orderItems = initOrderPriceAndImage(orderItemsInState === undefined ? [] : orderItemsInState);
     const dispatch = useDispatch();
 
     async function removeItem(itemId, itemShortName, howMany) {
@@ -31,6 +38,7 @@ export function Recap() {
             }));
         }
     }
+
 
     async function addItem(itemId, itemShortName) {
         await dispatch(addItemToOrderAsync({
@@ -46,26 +54,47 @@ export function Recap() {
         navigate("/end")
     }
 
-    return <div className={"main"}>
+    function initOrderPriceAndImage(orderItems){
+        return initPrices(initImages(orderItems)) //lel
+    }
+
+    function initPrices(orderItems) {
+        return orderItems.map(element => {
+            const orderItem = menus.find(menuItem => menuItem._id === element.item._id);
+            return { ...element , price:orderItem.price};
+        });
+    }
+
+    function initImages(orderItems) {
+        return orderItems.map(element => {
+            const orderItem = menus.find(menuItem => menuItem._id === element.item._id);
+            return { ...element , image:orderItem.image};
+        });
+    }
+
+
+    function calculatePrice( orderItems ) {
+        let totalPrice = 0;
+        orderItems.forEach(element => {  
+            totalPrice += element.price * element.howMany}
+        )
+        return totalPrice;
+    }
+
+    return <div className="recap">
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
         <Title />
         <h2>Recap</h2>
-        <div id={'order-items'}>
-            {orderItems.map(({item, howMany}) =>
-                <div id={"plus-minus"}>
-                    <div id={"plus-minus"}>
-                        <i className="fa fa-minus" id={"i"}
-                           onClick={() => removeItem(item._id, item.shortName, howMany)}></i>
-                        <div>{howMany}</div>
-                        <i className="fa fa-plus" id={"i"}
-                           onClick={() => addItem(item._id, item.shortName)}></i>
-                    </div>
-                    {item.shortName}
-                </div>
+        <div id='order-items-recap'>
+            {orderItems.map(({item, howMany, price, image}) =>
+                <RecapLine item={item} howMany={howMany} price={price} image={image} addItem={addItem} removeItem={removeItem}/>
             )}
         </div>
-        <button className={"button-1"} onClick={validateOrder}>Validate</button>
+        <div class="footer-recap">
+            <p>Total price: {calculatePrice(orderItems)}</p>
+            <button className={"button-1"} onClick={validateOrder}>Validate</button>
+        </div>
     </div>
-
 }
+

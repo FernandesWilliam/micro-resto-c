@@ -29,18 +29,18 @@ services:
     ports:
       - "${FRONT_BFF_PORT}:3000"
     environment:
-      - BFF_HOST=bff:3000
+      - REACT_APP_BFF_HOST=localhost:${BFF_PORT}
       - REACT_APP_CONFIG=bff
     volumes:
       - ./self-service-kiosk/:/self-service-kiosk/
-    entrypoint: "bash -c './wait-for-it.sh $${BFF_HOST} -- npm run start'"
+    entrypoint: "bash -c './wait-for-it.sh -t 30 bff:${BFF_PORT} -- npm run start'"
     networks:
       - nestjs-restaurant-network
 
   bff:
     image: micro-restaurant/bff
     ports:
-      - "${BFF_PORT}:3000"
+      - "${BFF_PORT}:${BFF_PORT}"
     depends_on:
       - ${GATEWAY}
       - ${MENU_SERVICE}
@@ -48,9 +48,10 @@ services:
       - ${DINING_SERVICE}
     environment:
       - GATEWAY_URL_WITH_PORT=${GATEWAY}:3000
-      - MENU_SERVICE_URL_WITH_PORT=localhost:9500/menu
-      - KITCHEN_URL=localhost:9500/kitchen
-      - DINING_SERVICE_URL_WITH_PORT=localhost:9500/dining
+      - MENU_SERVICE_URL_WITH_PORT=${GATEWAY}:3000/menu
+      - KITCHEN_URL=${GATEWAY}:3000/kitchen
+      - DINING_SERVICE_URL_WITH_PORT=${GATEWAY}:3000/dining
+      - BFF_PORT=${BFF_PORT}
     volumes:
       - ./bff/:/bff/
     entrypoint: "bash -c './wait-for-it.sh $${GATEWAY_URL_WITH_PORT} -- npm run start:dev'"
