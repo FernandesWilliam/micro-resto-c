@@ -37,6 +37,7 @@ export const removeItemToOrderAsync = createAsyncThunk(
  * Thunk that get the order ID
  */
 export const selectIdOrder = (state) => {
+    console.log(state.order.currentOrderId)
     return state.order.currentOrderId;
 }
 

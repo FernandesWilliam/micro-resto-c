@@ -1,7 +1,8 @@
+
 /**
  * Main catalog config. It will be used to store the behavior of each api calls.
  */
-export default {
+export const catalogConfig = {
     /**
      * Front manager, It calls the dining service directly
      */
@@ -17,10 +18,11 @@ export default {
      */
     'bff': {
         fetchMenus: async () => {
-            let bffPort = process.env.REACT_APP_BFF_PORT;
-            let res = await fetch(`http://localhost:${bffPort}/menus`);
+            const BFF_HOST = process.env.REACT_APP_BFF_HOST;
+            let res = await fetch(`http://${BFF_HOST}/menus`);
             return await res.json();
         }
     }
 };
 
+export default catalogConfig;

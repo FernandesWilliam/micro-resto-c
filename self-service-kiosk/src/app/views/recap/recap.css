@@ -1,0 +1,26 @@
+.recap {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.order-items {
+    height: 60%;
+    width: 100%;
+    overflow: scroll;
+    margin-bottom: 1cm;
+    background-color: black;
+}
+
+.footer-recap {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: white;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    border-top: 3px solid rgba(158, 223, 228, 0.8);
+}
