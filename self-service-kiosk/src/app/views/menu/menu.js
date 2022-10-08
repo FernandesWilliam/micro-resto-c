@@ -14,8 +14,7 @@ import {
     addItemToOrderAsync,
     removeItemToOrderAsync,
     selectIdOrder,
-    selectItemsOrder,
-    startOrderAsync
+    selectItemsOrder
 } from "../../store/order-store";
 import {useNavigate} from "react-router-dom";
 import {Title} from "../title/title";
@@ -37,9 +36,7 @@ export function Menu() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getMenusAsync());
-        // move to home
-        dispatch(startOrderAsync())
-    }, [dispatch]);
+    }, []);
 
     const menus = useSelector(selectMenus);
     const idOrder = useSelector(selectIdOrder)

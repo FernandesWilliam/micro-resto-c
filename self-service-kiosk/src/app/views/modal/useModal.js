@@ -8,11 +8,10 @@ const useModal = () => {
     const [idOrder, setIdOrder] = useState("");
 
 
-    function toggle(id, idOrdr) {
-        console.log("toggle");
+    function toggle(id, idOrder) {
         setIsShowing(!isShowing);
         setIdItem(id);
-        setIdOrder(idOrdr)
+        setIdOrder(idOrder)
 
     }
 

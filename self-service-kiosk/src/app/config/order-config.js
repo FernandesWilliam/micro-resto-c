@@ -1,4 +1,8 @@
-const extractBody = async (url, option = {}) => await (await fetch(url, option)).json();
+import axios from 'axios';
+const extractBody = async (url, option = {}) => {
+    const data = await (await fetch(url, option)).json();
+    return data;
+}
 const postOption = (data) => ({
     method: 'POST',
     body: data,
@@ -6,25 +10,39 @@ const postOption = (data) => ({
 
 });
 
+const BFF_HOST = process.env.REACT_APP_BFF_HOST;
 
 /**
  * Main order config. It will be used to store the behavior of each api calls
  */
-export default {
+const config = {
 
     'bff': {
         startOrder: async () => {
-
+            const orderId = await (await axios.post(`http://${BFF_HOST}/startOrder`)).data;
+            return orderId;
         },
-
-        addItemToOrder: async (orderID, menuItem, menuItemShortName, howMany) => {
-
+        addItemToOrder: async ({orderID, menuItem, menuItemShortName, howMany}) => {
+            let body = JSON.stringify(
+                {
+                    "menuItemId": menuItem,
+                    "menuItemShortName": menuItemShortName,
+                    "howMany": howMany
+                }
+            )
+            let order = await (await axios.post(`http://${BFF_HOST}/addItemToOrder/${orderID}`, body, {
+                headers: {
+                  'Content-Type': 'application/json'
+                }})).data;
+            return order.lines;
         },
-        removeItemToOrder: async (orderID) => {
-
+        removeItemToOrder: async ({orderID, menuItem})=> {
+            let order = await (await axios.delete(`http://${BFF_HOST}/order/${orderID}/item/${menuItem}`)).data;
+            return order.lines;
         },
-        sendItemToPreparation: async ({orderId}) => {
-
+        sendItemToPreparation: async ({orderID}) => {
+            let order = await (await axios.post(`http://${BFF_HOST}/sendItemToPrep/${orderID}`)).data;
+            return order.lines;
         }
 
     },
@@ -51,8 +69,6 @@ export default {
             }));
             // create an order
             let order = await extractBody(`http://${DINING_URL}/tableOrders`, option);
-
-            console.log(order['_id'], table['number']);
             // return the order id
             return order['_id'];
         },
@@ -87,9 +103,9 @@ export default {
                     method : "DELETE"
                 }
             let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}/${menuItem}`, option);
-            console.log(order)
             return order['lines'];
         }
     }
 };
 
+export default config;

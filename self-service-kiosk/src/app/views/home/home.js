@@ -2,6 +2,7 @@ import {useDispatch} from "react-redux";
 import React from 'react';
 import {useEffect} from "react";
 import './home.css';
+import logo from "./logoFastFood.png";
 import {startOrderAsync} from "../../store/order-store";
 import {useNavigate} from "react-router-dom"
 import {Title} from "../title/title";
@@ -13,20 +14,19 @@ export function Home() {
 
     useEffect(() => {
         dispatch(startOrderAsync())
-    }, [dispatch]);
+    }, []);
 
 
     function start() {
         navigate("/menu");
-
     }
 
     return <div>
         <Title />
         <div id={"around"}>
-            <div id={"logo"}> Logo </div>
+            <img src={logo} alt="logoo"></img>
             <div id={'start'} onClick={()=>start()}>
-                Touch to start the order.
+                <p>Touch to start the order.</p>
             </div>
 
         </div>
