@@ -4,7 +4,7 @@ services:
   front-end:
     image: micro-restaurant/self-service-kiosk
     ports:
-      - "${FRONT_PORT}:3000"
+      - "${FRONT_PORT}:${FRONT_PORT}"
     depends_on:
       - ${GATEWAY}
       - ${MENU_SERVICE}
@@ -16,6 +16,7 @@ services:
       - REACT_APP_KITCHEN_URL=localhost:9500/kitchen
       - REACT_APP_DINING_URL=localhost:9500/dining
       - REACT_APP_CONFIG=fm
+      - PORT=${FRONT_PORT}
     volumes:
       - ./self-service-kiosk/:/self-service-kiosk/
     entrypoint: "bash -c './wait-for-it.sh $${REACT_APP_GATEWAY} -- npm run start'"
@@ -27,10 +28,11 @@ services:
     depends_on:
       - bff
     ports:
-      - "${FRONT_BFF_PORT}:3000"
+      - "${FRONT_BFF_PORT}:${FRONT_BFF_PORT}"
     environment:
       - REACT_APP_BFF_HOST=localhost:${BFF_PORT}
       - REACT_APP_CONFIG=bff
+      - PORT=${FRONT_BFF_PORT}
     volumes:
       - ./self-service-kiosk/:/self-service-kiosk/
     entrypoint: "bash -c './wait-for-it.sh -t 30 bff:${BFF_PORT} -- npm run start'"
