@@ -4,10 +4,10 @@ import {Provider} from 'react-redux';
 import {store} from './app/store/store.js';
 import './index.css';
 import { CustomerDisplay } from "./app/views/customer-display/customer-display";
-import {Helmet} from "react-helmet";
-import {Menu} from "./app/views/menu/menu";
+import { Helmet } from "react-helmet";
+import { Menu } from "./app/views/menu/menu";
 
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import {Home} from "./app/views/home/home";
 import {Recap} from "./app/views/recap/recap";

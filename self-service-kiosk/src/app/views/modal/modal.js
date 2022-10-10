@@ -65,8 +65,8 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                                 </button>
                             </div>
                             <img src={item.image} style={{height: '50vh'}} className={'img-display'} alt={'Failure loading'}/>
-                            <div id={"add"}>
-                                <div id={"remove-add"}>
+                            <div className={"add"}>
+                                <div className={"remove-add"}>
                                     <i className="fa fa-minus" onClick={removeItem}></i>
                                     <div>{data.nb}</div>
                                     <i className="fa fa-plus" onClick={addItem}></i>
@@ -74,7 +74,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                                 </div>
                                 <div className="price">{data.price}€</div>
                             </div>
-                            <div id={"add-card"}>
+                            <div className={"add-card"}>
                                 <button class="button-1" onClick={() => {
                                     addToCard();
                                     hide(itemId, idOrder);
@@ -86,17 +86,17 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                 </div>
 
                 <style jsx="true">{`
-                  #add {
+                  .add {
                     display: flex;
                     justify-content: space-between;
                   }
 
-                  #remove-add {
+                  .remove-add {
                     display: flex;
                     justify-content: space-evenly;
                   }
 
-                  #add-card {
+                  .add-card {
                     justify-content: right;
                   }
                   

@@ -4,7 +4,7 @@ p {
 }
 
 #return-home {
-    width: 30%;
+    width: 30vw;
     height: 75px;
     display: table;
     margin-bottom: 10%;
@@ -17,6 +17,11 @@ p {
     background-color: rgba(204,25,0,0.4);
     color:white;
     text-align: center;
-    font: 900 35px sans-serif;
+    font: 900 20px sans-serif;
     margin-bottom: 100px;
+}
+
+.button-container {
+    text-align: center;
+    width: 100vw;
 }

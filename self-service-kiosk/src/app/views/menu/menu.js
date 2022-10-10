@@ -92,14 +92,14 @@ export function Menu() {
             )}</div>
         <div id={'menu-list'}>
             {category.catMenu.map(({_id, image, category, shortName, price}, index) =>
-                <div className={'item-card'} key={_id}
+                <div className={'item-card'} key={index}
                      onClick={() => {
                          toggle(_id, idOrder);
                      }}>
                     <img src={image} className={'img-display'} alt={'Failure loading'}/>
-                    <div id={'description'}>
-                        <div id={'dish'}>{shortName}  </div>
-                        <div id={'price'}>{price} €</div>
+                    <div className={'description'}>
+                        <div className={'dish'}>{shortName}  </div>
+                        <div className={'price'}>{price} €</div>
                     </div>
                 </div>
             )}
@@ -109,7 +109,7 @@ export function Menu() {
             <div id={"drawer"}>
                 <div id={'order-items'}>
                     {orderItems.slice(0, 3).map(({item, howMany}) =>
-                        <div id={"plus-minus"}>{howMany}x {item.shortName}</div>
+                        <div className={"plus-minus"}>{howMany}x {item.shortName}</div>
                     )}
                 </div>
                 <button className={"button-1"}>Validate</button>

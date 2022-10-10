@@ -43,9 +43,6 @@ const config = {
         sendOrderToPreparation: async ({orderID}) => {
             let order = await (await axios.post(`http://${BFF_HOST}/sendItemToPrep/${orderID}`)).data;
             return order.lines;
-        },
-        getOrderDetails: async ({orderId}) => {
-            return await (await fetch(`http://${BFF_HOST}/tableOrders/${orderId}`)).data;
         }
     },
     'fm': {
@@ -72,7 +69,7 @@ const config = {
             // create an order
             let order = await extractBody(`http://${DINING_URL}/tableOrders`, option);
             // return the order id
-            return order['_id'];
+            return order;
         },
         /**
          * Add in dining service a new item menus.
@@ -93,12 +90,10 @@ const config = {
         sendOrderToPreparation: async ({orderId}) => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
 
-            console.log(`Send order for preparation ${orderId}`);
-
-            return await fetch(`http://${DINING_URL}/tableOrders/${orderId}/prepare`, {
+            return await (await fetch(`http://${DINING_URL}/tableOrders/${orderId}/prepare`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'}
-            });
+            })).json();
         },
 
         removeItemToOrder: async ({orderID, menuItem}) => {
@@ -110,18 +105,6 @@ const config = {
             let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}/${menuItem}`, option);
             return order['lines'];
         },
-
-        getOrderDetails: async ({orderId}) => {
-            const DINING_URL = process.env.REACT_APP_DINING_URL;
-
-            console.log(`Request on http://${DINING_URL}/tableOrders/${orderId}`);
-
-            let res = await fetch(`http://${DINING_URL}/tableOrders/${orderId}`);
-
-            console.log('Res: ', res);
-
-            return await res.json();
-        }
     }
 };
 

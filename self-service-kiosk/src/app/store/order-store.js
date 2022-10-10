@@ -3,7 +3,7 @@ import orderConfig from '../config/order-config.js';
 
 const initialState = {
     currentOrderId: undefined,
-    currentOrder: {tableNumber: ''},
+    currentTable: undefined,
     /***
      * Only keeps {orderID:{[all items]}}
      */
@@ -34,10 +34,6 @@ export const removeItemToOrderAsync = createAsyncThunk(
     orderConfig[process.env.REACT_APP_CONFIG]['removeItemToOrder']
 );
 
-export const getOrderDetailAsync = createAsyncThunk(
-    'get/order',
-    orderConfig[process.env.REACT_APP_CONFIG]['getOrderDetails']
-);
 
 /**
  * Thunk that get the order ID
@@ -51,8 +47,8 @@ export const selectItemsOrder = (state) => {
     return state.order.orderItems;
 }
 
-export const selectOrder = (state) => {
-    return state.order.currentOrder;
+export const selectOrderTable = (state) => {
+    return state.order.currentTable;
 }
 
 
@@ -87,7 +83,8 @@ export const orderSlice = createSlice({
          * Add to the store the currentOrder processed.
          */
         builder.addCase(startOrderAsync.fulfilled, (state, action) => {
-            state.currentOrderId = action.payload;
+            state.currentOrderId = action.payload['_id'];
+            state.currentTable = action.payload.tableNumber;
         });
 
         /**
@@ -105,15 +102,13 @@ export const orderSlice = createSlice({
          * When the order has been sent in preparation clean the store
          */
         builder.addCase(sendOrderToPreparationAsync.fulfilled, (state, action) => {
-        });
-
-        builder.addCase(getOrderDetailAsync.fulfilled, (state, action) => {
-            state.currentOrder = action.payload
+            console.log('sendOrderToPreparationAsync: ', action.payload);
         });
 
         builder.addCase(forgetOrder, (state, action) => {
-            state.orderItems = [];
-            state.currentOrder = {table: ''}
+            if (state.orderItems)
+                state.orderItems.clear();
+            state.currentTable = undefined;
             state.currentOrderId = undefined;
         })
     },
