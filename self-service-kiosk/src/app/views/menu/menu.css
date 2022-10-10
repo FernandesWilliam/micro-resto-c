@@ -31,19 +31,6 @@
     min-height: 100vh;
 }
 
-#titles{
-    text-align: center;
-    font-family: Impact, Charcoal, sans-serif;
-    font-size: 40px;
-    letter-spacing: -1.4px;
-    word-spacing: -0.8px;
-    color: #AA4465;
-    font-weight: 400;
-    text-decoration: none;
-    font-style: normal;
-    font-variant: small-caps;
-    text-transform: none;
-}
 #filters{
     display: flex;
     text-align: center;

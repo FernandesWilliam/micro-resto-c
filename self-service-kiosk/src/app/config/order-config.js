@@ -18,12 +18,12 @@ export default {
         },
 
         addItemToOrder: async (orderID, menuItem, menuItemShortName, howMany) => {
-            return;
+
         },
         removeItemToOrder: async (orderID) => {
 
         },
-        sendItemToPreparation: async () => {
+        sendItemToPreparation: async ({orderId}) => {
 
         }
 
@@ -35,22 +35,22 @@ export default {
          * then create a new order.
          */
         startOrder: async () => {
-            let diningPort = 9500;
+            let DINING_URL = process.env.REACT_APP_DINING_URL;
             // fetch all tables
-            let tables = await extractBody(`http://localhost:${diningPort}/dining/tables`);
+            let tables = await extractBody(`http://${DINING_URL}/tables`);
             // filter by availability
             let table = tables.filter((table) => !table['taken'])?.[0];
             if (table === undefined) {
                 let maxTableCount = Math.max(...tables.map((table => table.number)));
                 let option = postOption(JSON.stringify({number: maxTableCount + 1}));
-                table = await extractBody(`http://localhost:${diningPort}/dining/tables`, option);
+                table = await extractBody(`http://${DINING_URL}/tables`, option);
             }
             let option = postOption(JSON.stringify({
                 "tableNumber": table['number'],
                 "customersCount": 1
             }));
             // create an order
-            let order = await extractBody(`http://localhost:${diningPort}/dining/tableOrders`, option);
+            let order = await extractBody(`http://${DINING_URL}/tableOrders`, option);
 
             console.log(order['_id'], table['number']);
             // return the order id
@@ -61,8 +61,7 @@ export default {
          * return the new state of the items list
          */
         addItemToOrder: async ({orderID, menuItem, menuItemShortName, howMany}) => {
-
-            let diningPort = 9500;
+            let DINING_URL = process.env.REACT_APP_DINING_URL;
             let option = postOption(JSON.stringify(
                 {
                     "menuItemId": menuItem,
@@ -70,22 +69,27 @@ export default {
                     "howMany": howMany
                 }
             ));
-            let order = await extractBody(`http://localhost:${diningPort}/dining/tableOrders/${orderID}`, option);
+            let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}`, option);
             return order['lines'];
+        },
+        sendItemToPreparation: async ({orderId}) => {
+            let DINING_URL = process.env.REACT_APP_DINING_URL;
+            return await fetch(`http://${DINING_URL}/tableOrders/${orderId}/prepare`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'}
+            });
         },
 
         removeItemToOrder: async ({orderID, menuItem}) => {
-            let diningPort = 9500;
+            let DINING_URL = process.env.REACT_APP_DINING_URL;
             let option =
                 {
                     method : "DELETE"
                 }
-            let order = await extractBody(`http://localhost:${diningPort}/dining/tableOrders/${orderID}/${menuItem}`, option);
+            let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}/${menuItem}`, option);
             console.log(order)
             return order['lines'];
         }
-
-
     }
 };
 

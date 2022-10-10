@@ -7,8 +7,8 @@ export default {
      */
     'fm': {
         fetchMenus: async () => {
-            let menuPort = process.env.REACT_APP_GATEWAY;
-            let res = await fetch(`http://localhost:${menuPort}/menus`);
+            let menuPort = process.env.REACT_APP_MENU_URL;
+            let res = await fetch(`http://${menuPort}/menus`);
             return await res.json();
         }
     },

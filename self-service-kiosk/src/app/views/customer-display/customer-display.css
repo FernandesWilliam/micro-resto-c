@@ -1,0 +1,16 @@
+h2 {
+    text-align: center;
+}
+
+#main-content {
+    display: flex;
+}
+
+#main-content > div {
+    flex: 1;
+    text-align: center;
+}
+
+#main-content > div:last-child {
+    border-left: solid 1px;
+}

@@ -10,6 +10,7 @@ import {
 } from "../../store/order-store";
 import "../menu/menu.css"
 import {useNavigate} from "react-router-dom";
+import {Title} from "../title/title";
 
 
 export function Recap() {
@@ -48,7 +49,7 @@ export function Recap() {
     return <div className={"main"}>
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
-        <h1 id={"titles"}>MiamMiam</h1>
+        <Title />
         <h2>Recap</h2>
         <div id={'order-items'}>
             {orderItems.map(({item, howMany}) =>
