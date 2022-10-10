@@ -24,3 +24,5 @@ export const preparationConfig = {
         }
     }
 }
+
+export default preparationConfig;

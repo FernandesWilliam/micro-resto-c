@@ -46,6 +46,15 @@ export async function addItemToOrder(orderID, element) {
     return order;
 }
 
+export async function sendItemToPreparation(id) {
+    return await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${orderId}/prepare`)).data;
+}
+
+export async function removeItemFromOrder(orderID, menuItem) {
+    let order = await (await axios.delete(`http://${DINING_SERVICE}/tableOrders/${orderID}/${menuItem}`)).data;
+    return order;
+}
+
 export async function sendItemsToPreparation(orderId, elements) {
     for(const element of elements) {
         addItemToOrder(orderId, element)

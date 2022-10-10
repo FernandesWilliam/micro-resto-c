@@ -114,7 +114,13 @@ const config = {
         getOrderDetails: async ({orderId}) => {
             const DINING_URL = process.env.REACT_APP_DINING_URL;
 
-            return await (await fetch(`http://${DINING_URL}/tableOrders/${orderId}`)).json();
+            console.log(`Request on http://${DINING_URL}/tableOrders/${orderId}`);
+
+            let res = await fetch(`http://${DINING_URL}/tableOrders/${orderId}`);
+
+            console.log('Res: ', res);
+
+            return await res.json();
         }
     }
 };

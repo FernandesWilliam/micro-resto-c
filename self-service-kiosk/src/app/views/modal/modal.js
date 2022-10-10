@@ -64,12 +64,12 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                                     <span>&times;</span>
                                 </button>
                             </div>
-                            <img src={item.image} className={'img-display'} alt={'Failure loading'}/>
+                            <img src={item.image} style={{height: '50vh'}} className={'img-display'} alt={'Failure loading'}/>
                             <div id={"add"}>
                                 <div id={"remove-add"}>
-                                    <i className="fa fa-minus" id={"i"} onClick={removeItem}></i>
+                                    <i className="fa fa-minus" onClick={removeItem}></i>
                                     <div>{data.nb}</div>
-                                    <i className="fa fa-plus" id={"i"} onClick={addItem}></i>
+                                    <i className="fa fa-plus" onClick={addItem}></i>
 
                                 </div>
                                 <div className="price">{data.price}€</div>
@@ -100,7 +100,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                     justify-content: right;
                   }
                   
-                  #i {
+                  i {
                     padding-right: 1rem;
                     padding-left: 1rem;
                   }

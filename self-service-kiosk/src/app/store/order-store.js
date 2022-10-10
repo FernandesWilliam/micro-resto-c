@@ -1,9 +1,9 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAction, createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import orderConfig from '../config/order-config.js';
 
 const initialState = {
     currentOrderId: undefined,
-    currentOrder: {table: ''},
+    currentOrder: {tableNumber: ''},
     /***
      * Only keeps {orderID:{[all items]}}
      */
@@ -39,11 +39,6 @@ export const getOrderDetailAsync = createAsyncThunk(
     orderConfig[process.env.REACT_APP_CONFIG]['getOrderDetails']
 );
 
-export const forgetOrderDetails = createAsyncThunk(
-    'delete/order',
-    () => true
-);
-
 /**
  * Thunk that get the order ID
  */
@@ -74,6 +69,7 @@ export const sendOrderToPreparationAsync = createAsyncThunk(
 //const selectOrderByID = (state, id) => state.order.orderItems[id];
 /****************** SELECTOR *************************/
 
+export const forgetOrder = createAction('forgetOrder');
 
 
 export const orderSlice = createSlice({
@@ -115,13 +111,14 @@ export const orderSlice = createSlice({
             state.currentOrder = action.payload
         });
 
-        builder.addCase(forgetOrderDetails.fulfilled, (state, action) => {
+        builder.addCase(forgetOrder, (state, action) => {
             state.orderItems = [];
+            state.currentOrder = {table: ''}
             state.currentOrderId = undefined;
         })
     },
 });
-export const {} = orderSlice.actions;
+export const { } = orderSlice.actions;
 
 
 export default orderSlice.reducer;

@@ -14,10 +14,10 @@ export function RecapLine(props) {
                     <p>{item.shortName}</p>
                 </div>
                 <div className="plusMinus">
-                    <i className="fa fa-minus"
+                    <i className="fa fa-minus i"
                         onClick={() => props.removeItem(item._id, item.shortName, howMany)}></i>
                     <p>{howMany}</p>
-                    <i className="fa fa-plus"
+                    <i className="fa fa-plus i"
                         onClick={() => props.addItem(item._id, item.shortName)}></i>
                 </div>
                 <p className="price">{howMany*price} €</p>

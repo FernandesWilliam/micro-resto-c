@@ -105,7 +105,7 @@ export function Menu() {
             )}
         </div>
 
-        <div className={"footer"} onClick={ () =>setOpen(true)}>
+        <div className={"footer"} onClick={ () =>setOpen(true) }>
             <div id={"drawer"}>
                 <div id={'order-items'}>
                     {orderItems.slice(0, 3).map(({item, howMany}) =>
