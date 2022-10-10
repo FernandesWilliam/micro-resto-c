@@ -18,11 +18,8 @@ app.post('/startOrder', async (req, res) => {
     res.send(await startOrder());
 })
 
-app.post('/addItemToOrder/:id', async (req, res) => {
-    res.send(await addItemToOrder(req.params.id,req.body));
-})
 
-app.post('/sendItemToPrep/:id', (req, res) => {
+app.post('/prepareOrder/:id', (req, res) => {
     res.send(sendItemToPreparation(req.params.id))
 })
 
