@@ -1,13 +1,22 @@
-#titles{
+p {
+    width: 100vw;
     text-align: center;
-    font-family: Impact, Charcoal, sans-serif;
-    font-size: 40px;
-    letter-spacing: -1.4px;
-    word-spacing: -0.8px;
-    color: #3187AC;
-    font-weight: 400;
-    text-decoration: none;
-    font-style: normal;
-    font-variant: small-caps;
-    text-transform: none;
+}
+
+#return-home {
+    width: 60%;
+    height: 150px;
+    display: table;
+    margin-bottom: 10%;
+
+    cursor: pointer;
+    border-radius: 45px;
+    box-shadow: 5px 5px 5px #660000;
+    display: table-cell;
+    vertical-align: middle;
+    background-color: rgba(204,25,0,0.4);
+    color:white;
+    text-align: center;
+    font: 900 35px sans-serif;
+    margin-bottom: 100px;
 }

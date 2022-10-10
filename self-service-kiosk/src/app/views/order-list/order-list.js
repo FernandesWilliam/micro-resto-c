@@ -5,7 +5,7 @@ export function OrderList(props) {
         <ul>
             {
                 props.orders.map(
-                    (order) => <li key={order._id.toString()} style={{ color: props.color }}>{order._id}</li>)
+                    (order) => <li key={order._id.toString()} style={{ color: props.color }}>{order.tableNumber}</li>)
             }
         </ul>
     )

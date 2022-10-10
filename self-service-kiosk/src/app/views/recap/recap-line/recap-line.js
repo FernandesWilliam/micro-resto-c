@@ -8,19 +8,19 @@ export function RecapLine(props) {
     const price = props.price;
     const image = props.image;
 
-    return <div id="recap-row">
-                <div id="row-info">
-                    <img src={image}></img>
+    return <div className="recap-row">
+                <div className="row-info">
+                    <img src={image} alt={item.shortName}></img>
                     <p>{item.shortName}</p>
                 </div>
-                <div id="plusMinus">
-                    <i className="fa fa-minus" id={"i"}
+                <div className="plusMinus">
+                    <i className="fa fa-minus"
                         onClick={() => props.removeItem(item._id, item.shortName, howMany)}></i>
                     <p>{howMany}</p>
-                    <i className="fa fa-plus" id={"i"}
+                    <i className="fa fa-plus"
                         onClick={() => props.addItem(item._id, item.shortName)}></i>
                 </div>
-                <p id="price">{howMany*price}</p>
+                <p className="price">{howMany*price} €</p>
             </div>
 
 }

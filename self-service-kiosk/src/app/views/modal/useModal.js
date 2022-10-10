@@ -1,6 +1,4 @@
 import { useState } from "react";
-import {useSelector} from "react-redux";
-import {selectMenuByID} from "../../store/catalog-store";
 
 const useModal = () => {
     const [isShowing, setIsShowing] = useState(false);

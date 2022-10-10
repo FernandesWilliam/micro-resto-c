@@ -41,7 +41,7 @@ export const catalogSlice = createSlice({
          * When menus are fetched , then catch the result, and add items to the store
          */
         builder.addCase(getMenusAsync.fulfilled, (state, action) => {
-            state.menus.push(...action.payload);
+            state.menus = action.payload;
         });
     },
 });

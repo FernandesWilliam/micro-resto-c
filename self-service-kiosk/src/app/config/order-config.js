@@ -40,11 +40,13 @@ const config = {
             let order = await (await axios.delete(`http://${BFF_HOST}/order/${orderID}/item/${menuItem}`)).data;
             return order.lines;
         },
-        sendItemToPreparation: async ({orderID}) => {
+        sendOrderToPreparation: async ({orderID}) => {
             let order = await (await axios.post(`http://${BFF_HOST}/sendItemToPrep/${orderID}`)).data;
             return order.lines;
+        },
+        getOrderDetails: async ({orderId}) => {
+            return await (await fetch(`http://${BFF_HOST}/tableOrders/${orderId}`)).data;
         }
-
     },
     'fm': {
         /**
@@ -88,8 +90,11 @@ const config = {
             let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}`, option);
             return order['lines'];
         },
-        sendItemToPreparation: async ({orderId}) => {
+        sendOrderToPreparation: async ({orderId}) => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
+
+            console.log(`Send order for preparation ${orderId}`);
+
             return await fetch(`http://${DINING_URL}/tableOrders/${orderId}/prepare`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'}
@@ -104,6 +109,12 @@ const config = {
                 }
             let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}/${menuItem}`, option);
             return order['lines'];
+        },
+
+        getOrderDetails: async ({orderId}) => {
+            const DINING_URL = process.env.REACT_APP_DINING_URL;
+
+            return await (await fetch(`http://${DINING_URL}/tableOrders/${orderId}`)).json();
         }
     }
 };

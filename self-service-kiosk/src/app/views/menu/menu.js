@@ -36,7 +36,7 @@ export function Menu() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getMenusAsync());
-    }, []);
+    }, [dispatch]);
 
     const menus = useSelector(selectMenus);
     const idOrder = useSelector(selectIdOrder)
@@ -55,14 +55,6 @@ export function Menu() {
 
     const [open, setOpen] = useState(false);
 
-    function openOrder() {
-        setOpen(true);
-    }
-
-    function onDismiss() {
-        setOpen(false)
-    }
-
     const {isShowing, toggle, idItem} = useModal();
 
 
@@ -76,7 +68,7 @@ export function Menu() {
 
     async function removeItem(itemId, howMany) {
         if (howMany > 0) {
-            await dispatch(removeItemToOrderAsync({
+            dispatch(removeItemToOrderAsync({
                 orderID: idOrder,
                 menuItem: itemId
             }));
@@ -84,7 +76,7 @@ export function Menu() {
     }
 
     async function addItem(itemId, itemShortName) {
-        await dispatch(addItemToOrderAsync({
+        dispatch(addItemToOrderAsync({
             orderID: idOrder,
             menuItem: itemId,
             menuItemShortName: itemShortName,
@@ -100,7 +92,7 @@ export function Menu() {
             )}</div>
         <div id={'menu-list'}>
             {category.catMenu.map(({_id, image, category, shortName, price}, index) =>
-                <div className={'item-card'} key={index}
+                <div className={'item-card'} key={_id}
                      onClick={() => {
                          toggle(_id, idOrder);
                      }}>
@@ -137,12 +129,12 @@ export function Menu() {
             <div id={"drawer"}>
                 <div id={'order-items'}>
                     {orderItems.map(({item, howMany}) =>
-                        <div id={"plus-minus"}>
-                            <div id={"plus-minus"}>
-                                <i className="fa fa-minus" id={"i"}
+                        <div className={"plus-minus"}>
+                            <div className={"plus-minus"}>
+                                <i className="fa fa-minus"
                                    onClick={() => removeItem(item._id, howMany)}></i>
                                 <div>{howMany}</div>
-                                <i className="fa fa-plus" id={"i"}
+                                <i className="fa fa-plus"
                                    onClick={() => addItem(item._id, item.shortName)}></i>
                             </div>
                             {item.shortName}

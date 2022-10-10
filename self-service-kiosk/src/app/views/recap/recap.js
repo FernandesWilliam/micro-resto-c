@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import React, {useEffect} from "react";
+import React from "react";
 import {
     selectMenus
 } from "../../store/catalog-store.js";
@@ -7,9 +7,7 @@ import {
     addItemToOrderAsync,
     removeItemToOrderAsync,
     selectIdOrder,
-    selectItemsOrder, sendOrderToPreparationAsync,
-    startOrderAsync
-} from "../../store/order-store";
+    selectItemsOrder, sendOrderToPreparationAsync} from "../../store/order-store";
 import "./recap.css"
 import {useNavigate} from "react-router-dom";
 import {Title} from "../title/title";
@@ -23,14 +21,14 @@ export function Recap() {
     const menus = useSelector(selectMenus);
     const navigate = useNavigate();
 
-    const idOrder = useSelector(selectIdOrder)
-    const orderItemsInState = useSelector(selectItemsOrder)
+    const idOrder = useSelector(selectIdOrder);
+    const orderItemsInState = useSelector(selectItemsOrder);
     const orderItems = initOrderPriceAndImage(orderItemsInState === undefined ? [] : orderItemsInState);
     const dispatch = useDispatch();
 
     async function removeItem(itemId, itemShortName, howMany) {
         if (howMany > 0) {
-            await dispatch(removeItemToOrderAsync({
+            dispatch(removeItemToOrderAsync({
                 orderID: idOrder,
                 menuItem: itemId,
                 menuItemShortName: itemShortName,
@@ -41,7 +39,7 @@ export function Recap() {
 
 
     async function addItem(itemId, itemShortName) {
-        await dispatch(addItemToOrderAsync({
+        dispatch(addItemToOrderAsync({
             orderID: idOrder,
             menuItem: itemId,
             menuItemShortName: itemShortName,
@@ -50,12 +48,12 @@ export function Recap() {
     }
 
     async function validateOrder() {
-        await dispatch(sendOrderToPreparationAsync(idOrder));
-        navigate("/end")
+        dispatch(sendOrderToPreparationAsync({orderId: idOrder}));
+        navigate("/end");
     }
 
     function initOrderPriceAndImage(orderItems){
-        return initPrices(initImages(orderItems)) //lel
+        return initPrices(initImages(orderItems));
     }
 
     function initPrices(orderItems) {
@@ -92,7 +90,7 @@ export function Recap() {
             )}
         </div>
         <div class="footer-recap">
-            <p>Total price: {calculatePrice(orderItems)}</p>
+            <p>Total price: {calculatePrice(orderItems)} €</p>
             <button className={"button-1"} onClick={validateOrder}>Validate</button>
         </div>
     </div>

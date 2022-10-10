@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import ReactDOM from "react-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getMenusAsync, selectMenuByID, selectMenus} from "../../store/catalog-store";
-import {addItemToOrderAsync, removeItemToOrderAsync} from "../../store/order-store";
+import {addItemToOrderAsync} from "../../store/order-store";
 
 
 const Modal = ({isShowing, hide, itemId, idOrder}) => {
@@ -32,7 +32,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
 
     async function addToCard() {
         if (data.nb > 0) {
-            await dispatch(addItemToOrderAsync({
+            dispatch(addItemToOrderAsync({
                 orderID: idOrder,
                 menuItem: itemId,
                 menuItemShortName: item.shortName,

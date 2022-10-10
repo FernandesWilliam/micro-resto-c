@@ -3,6 +3,7 @@ import orderConfig from '../config/order-config.js';
 
 const initialState = {
     currentOrderId: undefined,
+    currentOrder: {table: ''},
     /***
      * Only keeps {orderID:{[all items]}}
      */
@@ -33,16 +34,30 @@ export const removeItemToOrderAsync = createAsyncThunk(
     orderConfig[process.env.REACT_APP_CONFIG]['removeItemToOrder']
 );
 
+export const getOrderDetailAsync = createAsyncThunk(
+    'get/order',
+    orderConfig[process.env.REACT_APP_CONFIG]['getOrderDetails']
+);
+
+export const forgetOrderDetails = createAsyncThunk(
+    'delete/order',
+    () => true
+);
+
 /**
  * Thunk that get the order ID
  */
 export const selectIdOrder = (state) => {
-    console.log(state.order.currentOrderId)
+    //console.log(state.order.currentOrderId)
     return state.order.currentOrderId;
 }
 
 export const selectItemsOrder = (state) => {
     return state.order.orderItems;
+}
+
+export const selectOrder = (state) => {
+    return state.order.currentOrder;
 }
 
 
@@ -94,9 +109,16 @@ export const orderSlice = createSlice({
          * When the order has been sent in preparation clean the store
          */
         builder.addCase(sendOrderToPreparationAsync.fulfilled, (state, action) => {
-            state.orderItems.clear();
-            state.currentOrderId = undefined;
         });
+
+        builder.addCase(getOrderDetailAsync.fulfilled, (state, action) => {
+            state.currentOrder = action.payload
+        });
+
+        builder.addCase(forgetOrderDetails.fulfilled, (state, action) => {
+            state.orderItems = [];
+            state.currentOrderId = undefined;
+        })
     },
 });
 export const {} = orderSlice.actions;
