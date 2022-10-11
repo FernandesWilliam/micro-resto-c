@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { startOrder, addItemToOrder, sendItemToPreparation, removeItemFromOrder, getMenus } from './services.js';
+import { startOrder, sendItemToPreparation, removeItemFromOrder, getMenus } from './services.js';
 const app = express()
 
 const PORT = parseInt(process.env.BFF_PORT) || 3005

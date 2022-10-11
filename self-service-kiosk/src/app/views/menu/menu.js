@@ -78,8 +78,8 @@ export function Menu() {
     async function addItem(itemId, itemShortName) {
         dispatch(addItemToOrderAsync({
             orderID: idOrder,
-            menuItem: itemId,
-            menuItemShortName: itemShortName,
+            _id: itemId,
+            shortName: itemShortName,
             howMany: 1
         }));
     }

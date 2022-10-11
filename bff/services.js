@@ -21,7 +21,11 @@ async function getAvailableTable() {
     if (table === undefined) {
         let maxTableCount = Math.max(...tables.map((table => table.number)));
         const jsonBody = JSON.stringify({number: maxTableCount + 1});
-        table = await (await axios.post(`http://${DINING_SERVICE}/tables`, jsonBody)).data
+        table = await (await axios.post(`http://${DINING_SERVICE}/tables`, jsonBody,{
+            headers:{
+                'Content-Type': 'application/json'
+            }
+        })).data
     }
     return table;
 }
