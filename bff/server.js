@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { startOrder, addItemToOrder, sendItemToPreparation, removeItemFromOrder, getMenus } from './services.js';
+import {startOrder, getMenus, sendItemsToPreparation} from './services.js';
 const app = express()
 
 const PORT = parseInt(process.env.BFF_PORT) || 3005
@@ -20,11 +20,9 @@ app.post('/startOrder', async (req, res) => {
 
 
 app.post('/prepareOrder/:id', (req, res) => {
-    res.send(sendItemToPreparation(req.params.id))
+    res.send(sendItemsToPreparation(req.params.id))
 })
 
-app.delete('/order/:idOrder/item/:idItem', async (req, res) => {
-    res.send(await removeItemFromOrder(req.params.idOrder,req.params.idItem));
-})
+
 
 app.listen(PORT);

@@ -34,8 +34,8 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
         if (data.nb > 0) {
             await dispatch(addItemToOrderAsync({
                 orderID: idOrder,
-                menuItem: itemId,
-                menuItemShortName: item.shortName,
+                _id: itemId,
+                shortName: item.shortName,
                 howMany: data.nb
             }));
         }
