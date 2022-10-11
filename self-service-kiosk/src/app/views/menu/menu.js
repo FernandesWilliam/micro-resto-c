@@ -89,7 +89,7 @@ export function Menu() {
         <Title />
         <div id={'filters'}>
             {categories.map((cat, i) =>
-                <div onClick={() => changeCat(cat)}>{cat}</div>
+                <div key={i} onClick={() => changeCat(cat)}>{cat}</div>
             )}</div>
         <div id={'menu-list'}>
             {category.catMenu.map(({_id, image, category, shortName, price}, index) =>
@@ -109,8 +109,8 @@ export function Menu() {
         <div className={"footer"} onClick={ () =>setOpen(true) }>
             <div id={"drawer"}>
                 <div id={'order-items'}>
-                    {orderItems.slice(0, 3).map(({item, howMany}) =>
-                        <div className={"plus-minus"}>{howMany}x {item.shortName}</div>
+                    {orderItems.slice(0, 3).map(({item, howMany},key) =>
+                        <div key={key} className={"plus-minus"}>{howMany}x {item.shortName}</div>
                     )}
                 </div>
                 <button className={"button-1"}>Validate</button>
@@ -129,8 +129,8 @@ export function Menu() {
             snapPoints={({minHeight}) => minHeight}>
             <div id={"drawer"}>
                 <div id={'order-items'}>
-                    {orderItems.map(({item, howMany}) =>
-                        <div className={"plus-minus"}>
+                    {orderItems.map(({item, howMany},index) =>
+                        <div key={index} className={"plus-minus"}>
                             <div className={"plus-minus"}>
                                 <i className="fa fa-minus"
                                    onClick={() => removeItem(item._id, howMany)}></i>

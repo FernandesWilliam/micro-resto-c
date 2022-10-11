@@ -86,11 +86,11 @@ export function Recap() {
         <Title />
         <h2>Recap</h2>
         <div id='order-items-recap'>
-            {orderItems.map(({item, howMany, price, image}) =>
-                <RecapLine item={item} howMany={howMany} price={price} image={image} addItem={addItem} removeItem={removeItem}/>
+            {orderItems.map(({item, howMany, price, image},index) =>
+                <RecapLine key={index} item={item} howMany={howMany} price={price} image={image} addItem={addItem} removeItem={removeItem}/>
             )}
         </div>
-        <div class="footer-recap">
+        <div className="footer-recap">
             <p>Total price: {calculatePrice(orderItems)} €</p>
             <button className={"button-1"} onClick={validateOrder}>Validate</button>
         </div>

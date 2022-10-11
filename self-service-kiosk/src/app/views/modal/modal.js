@@ -75,7 +75,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                                 <div className="price">{data.price}€</div>
                             </div>
                             <div className={"add-card"}>
-                                <button class="button-1" onClick={() => {
+                                <button className="button-1" onClick={() => {
                                     addToCard();
                                     hide(itemId, idOrder);
                                 }}>Add to card
