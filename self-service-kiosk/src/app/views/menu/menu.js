@@ -67,6 +67,7 @@ export function Menu() {
 
 
     async function removeItem(itemId, howMany) {
+
         if (howMany > 0) {
             dispatch(removeItemToOrderAsync({
                 orderID: idOrder,

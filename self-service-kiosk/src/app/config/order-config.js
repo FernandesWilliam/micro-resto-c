@@ -130,7 +130,7 @@ const config = {
         removeItemToOrder: async ({orderID, menuItem}) => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
             let option =
-                {
+                    {
                     method: "DELETE"
                 };
             let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}/${menuItem}`, option);

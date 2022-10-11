@@ -65,6 +65,7 @@ export class TableOrdersController {
 
   @Delete(':tableOrderId/:menuItemId')
   async deleteMenuItemFromOrders(@Param('tableOrderId') tableOrderId:string, @Param('menuItemId') menuItemId: string ) {
+    console.log('Should remove',tableOrderId,menuItemId)
     return this.tableOrdersService.deleteOrderingLineFromTableOrder(tableOrderId, menuItemId);
   }
 

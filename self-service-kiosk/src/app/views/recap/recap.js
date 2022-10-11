@@ -38,11 +38,12 @@ export function Recap() {
     }
 
 
-    async function addItem(itemId, itemShortName) {
-        dispatch(addItemToOrderAsync({
+
+    async function addItem(itemId,  itemShortName) {
+        await dispatch(addItemToOrderAsync({
             orderID: idOrder,
-            menuItem: itemId,
-            menuItemShortName: itemShortName,
+            _id: itemId,
+            shortName: itemShortName,
             howMany: 1
         }));
     }
