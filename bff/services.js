@@ -10,7 +10,10 @@ export async function getMenus() {
 export async function startOrder() {
     const table = await getAvailableTable();
     const order = await createOrder(table);
-    return order['_id'];
+    return {
+        _id: order['_id'],
+        tableNumber: order.tableNumber
+    };
 }
 
 

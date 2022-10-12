@@ -52,7 +52,7 @@ const config = {
             orderItems.push(itemOrder);
             return orderItems;
         },
-        removeItemToOrder: async ({menuItem}, thunkBundle) => {
+        removeItemToOrder: async ({orderID, menuItem}, thunkBundle) => {
             let itemOrder = {
                 sendForPreparation: false,
                 item: {},
@@ -106,12 +106,12 @@ const config = {
          * Add in dining service a new item menus.
          * return the new state of the items list
          */
-        addItemToOrder: async ({orderID, menuItem, menuItemShortName, howMany}) => {
+        addItemToOrder: async ({orderID, _id, shortName, howMany}) => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
             let option = postOption(JSON.stringify(
                 {
-                    "menuItemId": menuItem,
-                    "menuItemShortName": menuItemShortName,
+                    "menuItemId": _id,
+                    "menuItemShortName": shortName,
                     "howMany": howMany
                 }
             ));
