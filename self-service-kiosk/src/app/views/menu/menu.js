@@ -36,6 +36,7 @@ export function Menu() {
     const dispatch = useDispatch();
     useEffect(() => {
         dispatch(getMenusAsync());
+
     }, [dispatch]);
 
     const menus = useSelector(selectMenus);
@@ -53,6 +54,13 @@ export function Menu() {
         catMenu: selectMenuByCategory(menus, "STARTER")
     });
 
+    useEffect(() => {
+        setCategory({
+            currentCat: "STARTER",
+            catMenu: selectMenuByCategory(menus, "STARTER")
+        })
+    }, [menus])
+
     const [open, setOpen] = useState(false);
 
     const {isShowing, toggle, idItem} = useModal();
@@ -65,9 +73,7 @@ export function Menu() {
         })
     }
 
-
     async function removeItem(itemId, howMany) {
-
         if (howMany > 0) {
             dispatch(removeItemToOrderAsync({
                 orderID: idOrder,
@@ -85,30 +91,32 @@ export function Menu() {
         }));
     }
 
+
     return <div className={"main"}>
         <Title />
         <div id={'filters'}>
             {categories.map((cat, i) =>
                 <div key={i} onClick={() => changeCat(cat)}>{cat}</div>
             )}</div>
-        <div id={'menu-list'}>
+        <div className={'menu-list'}>
             {category.catMenu.map(({_id, image, category, shortName, price}, index) =>
                 <div className={'item-card'} key={index}
                      onClick={() => {
+
                          toggle(_id, idOrder);
                      }}>
                     <img src={image} className={'img-display'} alt={'Failure loading'}/>
                     <div className={'description'}>
                         <div className={'dish'}>{shortName}  </div>
-                        <div className={'price'}>{price} €</div>
+                        <div className={'priceMenu'}>{price} €</div>
                     </div>
                 </div>
             )}
         </div>
 
-        <div className={"footer"} onClick={ () =>setOpen(true) }>
-            <div id={"drawer"}>
-                <div id={'order-items'}>
+        <div className={"footerMenu"} onClick={ () =>setOpen(true) }>
+            <div className={"drawerMenu"}>
+                <div className={'orderItemsMenu'}>
                     {orderItems.slice(0, 3).map(({item, howMany},key) =>
                         <div key={key} className={"plus-minus"}>{howMany}x {item.shortName}</div>
                     )}
@@ -127,11 +135,11 @@ export function Menu() {
             open={open}
             onDismiss={ () =>setOpen(false)}
             snapPoints={({minHeight}) => minHeight}>
-            <div id={"drawer"}>
-                <div id={'order-items'}>
+            <div className={"drawerMenu"}>
+                <div className={'order'}>
                     {orderItems.map(({item, howMany},index) =>
-                        <div key={index} className={"plus-minus"}>
-                            <div className={"plus-minus"}>
+                        <div key={index} className="together">
+                            <div className="plus-minus">
                                 <i className="fa fa-minus"
                                    onClick={() => removeItem(item._id, howMany)}></i>
                                 <div>{howMany}</div>

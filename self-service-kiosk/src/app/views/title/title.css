@@ -1,7 +1,7 @@
 h1 {
     text-align: center;
     font-family:  Impact, Charcoal, sans-serif;
-    font-size: 60px;
+    font-size: 40px;
     letter-spacing: -1.4px;
     word-spacing: -0.8px;
     font-weight: 400;
@@ -16,5 +16,5 @@ h1 > span:first-child {
 }
 
 h1 > span:last-child {
-    color: indianred;
+    color: rgba(248, 21, 209, 0.78);
 }

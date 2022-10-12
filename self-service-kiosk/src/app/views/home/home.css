@@ -8,10 +8,10 @@
 #start p {
     cursor: pointer;
     border-radius: 45px;
-    box-shadow: 5px 5px 5px #660000;
+    box-shadow: 5px 5px 5px rgba(248, 21, 209, 0.78);
     display: table-cell;
     vertical-align: middle;
-    background-color: rgba(204,25,0,0.4);
+    background-color: rgba(248, 21, 209, 0.4);
     color:white;
     text-align: center;
     font: 900 35px sans-serif;
@@ -23,7 +23,7 @@
     justify-content: center;
     align-content: center;
     align-items: center;
-    background-color: #FF5700;
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
     border-radius: 5px;
