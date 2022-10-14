@@ -89,6 +89,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                   .add {
                     display: flex;
                     justify-content: space-between;
+                    padding: 10px;
                   }
 
                   .remove-add {

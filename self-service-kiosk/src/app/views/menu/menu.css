@@ -40,6 +40,7 @@ i{
     left: 0;
     width: 100%;
     height: 10vh;
+    box-shadow: 0 0 50px #ccc;
 }
 
 .footerMenu:hover {
@@ -58,6 +59,8 @@ i{
     justify-content: space-evenly;
     gap: 10px;
     height: 5vh;
+    box-shadow: 0 8px 5px #ccc;
+    line-height: 4vh;
 }
 
 #filters > div:hover {
