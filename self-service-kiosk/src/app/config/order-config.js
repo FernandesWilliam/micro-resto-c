@@ -71,8 +71,8 @@ const config = {
             }
             return thunkBundle.getState().order.orderItems.filter(element => element._id !== menuItem._id);
         },
-        sendOrderToPreparation: async ({orderID}) => {
-            let order = await (await axios.post(`http://${BFF_HOST}/prepareOrder/${orderID}`)).data;
+        sendOrderToPreparation: async ({orderId}) => {
+            let order = await (await axios.post(`http://${BFF_HOST}/prepareOrder/${orderId}`)).data;
             return order.lines;
         }
     },

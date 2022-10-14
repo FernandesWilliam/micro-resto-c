@@ -59,6 +59,7 @@ services:
     entrypoint: "bash -c './wait-for-it.sh $${GATEWAY_URL_WITH_PORT} -- npm run start:dev'"
     networks:
       - nestjs-restaurant-network
+    restart: always
 
 networks:
   nestjs-restaurant-network:

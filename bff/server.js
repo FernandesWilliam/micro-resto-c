@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { startOrder, sendItemToPreparation, removeItemFromOrder, getMenus } from './services.js';
+import { startOrder, sendItemToPreparation, removeItemFromOrder, getMenus, fetchPreparations } from './services.js';
 const app = express()
 
 const PORT = parseInt(process.env.BFF_PORT) || 3005
@@ -20,11 +20,25 @@ app.post('/startOrder', async (req, res) => {
 
 
 app.post('/prepareOrder/:id', (req, res) => {
-    res.send(sendItemToPreparation(req.params.id))
+    console.log(`Order id: ${req.params.id}`)
+    if (req.params.id === undefined) {
+        res.status(400).send('`orderId` is undefined');
+        return;
+    }
+    res.send(sendItemToPreparation(req.params.id));
 })
 
 app.delete('/order/:idOrder/item/:idItem', async (req, res) => {
     res.send(await removeItemFromOrder(req.params.idOrder,req.params.idItem));
 })
+
+// Preparations
+app.get('/preparations', async (req, res) => {
+    if (req.query.state === undefined) {
+        res.status(400).send('`state` property is required in query');
+        return;
+    }
+    res.send(await fetchPreparations(req.query.state));
+});
 
 app.listen(PORT);
