@@ -46,7 +46,13 @@ async function createOrder(table) {
 }
 
 export async function addItemToOrder(orderID, element) {
-    let body = JSON.stringify(element)
+    if (element.sendForPreparation)
+        return;
+    let body = JSON.stringify({
+        menuItemId: element.item._id,
+        menuItemShortName: element.item.shortName,
+        howMany: element.howMany 
+    })
     let order = await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${orderID}`, body, {
         headers: {
             'Content-Type': 'application/json'
@@ -54,19 +60,14 @@ export async function addItemToOrder(orderID, element) {
     return order;
 }
 
-export async function sendItemToPreparation(orderId) {
-    console.log(`Send item to preparation request: http://${DINING_SERVICE}/tableOrders/${orderId}/prepare`)
-    return await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${orderId}/prepare`)).data;
-}
-
 export async function removeItemFromOrder(orderID, menuItem) {
     let order = await (await axios.delete(`http://${DINING_SERVICE}/tableOrders/${orderID}/${menuItem}`)).data;
     return order;
 }
 
-export async function sendItemsToPreparation(orderId, elements) {
-    for(const element of elements) {
-        addItemToOrder(orderId, element)
+export async function sendItemsToPreparation(orderId, order) {
+    for(const element of order) {
+        await addItemToOrder(orderId, element)
     }
     return await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${orderId}/prepare`)).data;
 }

@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { startOrder, sendItemToPreparation, removeItemFromOrder, getMenus, fetchPreparations } from './services.js';
+import { startOrder, sendItemsToPreparation, removeItemFromOrder, getMenus, fetchPreparations } from './services.js';
 const app = express()
 
 const PORT = parseInt(process.env.BFF_PORT) || 3005
@@ -20,12 +20,11 @@ app.post('/startOrder', async (req, res) => {
 
 
 app.post('/prepareOrder/:id', (req, res) => {
-    console.log(`Order id: ${req.params.id}`)
     if (req.params.id === undefined) {
         res.status(400).send('`orderId` is undefined');
         return;
     }
-    res.send(sendItemToPreparation(req.params.id));
+    res.send(sendItemsToPreparation(req.params.id, req.body));
 })
 
 app.delete('/order/:idOrder/item/:idItem', async (req, res) => {
