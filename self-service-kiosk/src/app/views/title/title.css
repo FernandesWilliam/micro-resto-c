@@ -9,6 +9,7 @@ h1 {
     font-style: normal;
     font-variant: small-caps;
     text-transform: none;
+    height: 5vh;
 }
 
 h1 > span:first-child {

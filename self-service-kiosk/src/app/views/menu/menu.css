@@ -33,18 +33,22 @@ i{
 }
 
 .footerMenu {
-    /*margin-top: 1rem;
-    padding: 1rem; */
+    padding: 1rem;
     background-color: white;
     position: relative;
     bottom: 0;
     left: 0;
     width: 100%;
+    height: 10vh;
+}
+
+.footerMenu:hover {
+    cursor: pointer;
 }
 
 .main{
     position: relative;
-    height: 100vh;
+    /* height: 100vh; */
     max-height: 100vh;
 }
 
@@ -53,6 +57,7 @@ i{
     text-align: center;
     justify-content: space-evenly;
     gap: 10px;
+    height: 5vh;
 }
 
 #filters > div:hover {
@@ -77,6 +82,7 @@ i{
     overflow-y: scroll;
     padding: 13px;
     display: grid;
+    grid: auto auto auto;
     grid-template-columns: repeat(2, 1fr);
     gap: 1vh;
 }
@@ -93,7 +99,6 @@ i{
 
 .button-1 {
     background-color: rgba(248, 21, 209, 0.78);
-    /* background-color: #EA4C89; */
     border-radius: 8px;
     border-style: none;
     box-sizing: border-box;

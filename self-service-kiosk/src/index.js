@@ -23,6 +23,7 @@ root.render(
     <Provider store={store}>
 
         <Helmet>
+            <link rel="icon" type="image/png" href="/logoFastFood.png" sizes="16x16" />
             <meta charSet="utf-8" />
             <title>MiamMiam</title>
         </Helmet>
