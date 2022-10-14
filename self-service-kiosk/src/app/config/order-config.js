@@ -19,6 +19,7 @@ const BFF_HOST = process.env.REACT_APP_BFF_HOST;
 const config = {
 
     'bff': {
+        orders: new Map(),    
         startOrder: async () => {
             const orderId = await (await axios.post(`http://${BFF_HOST}/startOrder`)).data;
             return orderId;
@@ -50,6 +51,12 @@ const config = {
                 orderItems.splice(index, 1);
             }
             orderItems.push(itemOrder);
+
+            {
+                let order = config.bff.orders.has(orderID) ? config.bff.orders.get(orderID) : [];
+                order.push(orderItems);
+                config.bff.orders.set(orderID, order);
+            }
             return orderItems;
         },
         removeItemToOrder: async ({orderID, menuItem}, thunkBundle) => {
@@ -71,8 +78,8 @@ const config = {
             }
             return thunkBundle.getState().order.orderItems.filter(element => element._id !== menuItem._id);
         },
-        sendOrderToPreparation: async ({orderID}) => {
-            let order = await (await axios.post(`http://${BFF_HOST}/prepareOrder/${orderID}`)).data;
+        sendOrderToPreparation: async ({orderId}, thunkBundle) => {
+            let order = await (await axios.post(`http://${BFF_HOST}/prepareOrder/${orderId}`, thunkBundle.getState().order.orderItems)).data;
             return order.lines;
         }
     },

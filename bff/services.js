@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const DINING_SERVICE = process.env.DINING_SERVICE_URL_WITH_PORT || 'localhost:9500/dining';
 const MENUS_SERVICE = process.env.MENU_SERVICE_URL_WITH_PORT || 'http://localhost:9500/menu';
+const KITCHEN_SERVICE = process.env.KITCHEN_URL || 'localhost:9500/kitchen';
 
 export async function getMenus() {
     return await (await axios.get(`http://${MENUS_SERVICE}/menus`)).data 
@@ -45,7 +46,13 @@ async function createOrder(table) {
 }
 
 export async function addItemToOrder(orderID, element) {
-    let body = JSON.stringify(element)
+    if (element.sendForPreparation)
+        return;
+    let body = JSON.stringify({
+        menuItemId: element.item._id,
+        menuItemShortName: element.item.shortName,
+        howMany: element.howMany 
+    })
     let order = await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${orderID}`, body, {
         headers: {
             'Content-Type': 'application/json'
@@ -53,18 +60,61 @@ export async function addItemToOrder(orderID, element) {
     return order;
 }
 
-export async function sendItemToPreparation(id) {
-    return await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${orderId}/prepare`)).data;
-}
-
 export async function removeItemFromOrder(orderID, menuItem) {
     let order = await (await axios.delete(`http://${DINING_SERVICE}/tableOrders/${orderID}/${menuItem}`)).data;
     return order;
 }
 
-export async function sendItemsToPreparation(orderId, elements) {
-    for(const element of elements) {
-        addItemToOrder(orderId, element)
+export async function sendItemsToPreparation(orderId, order) {
+    for(const element of order) {
+        await addItemToOrder(orderId, element)
     }
     return await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${orderId}/prepare`)).data;
+}
+
+// Preparations
+
+/**
+ * Preparation storage. Allow to compute which one is completed and ready to be served for a self
+ * service kiosk
+ */
+let preparations = new Map();
+
+/**
+ * Fast mapping to get the state (true | false) to give to an order on fetching and to find the filter
+ * to apply
+ */
+const preparationConfig = {
+    'preparationStarted': {
+        state: false,
+        filter: (array) => array.filter((val) => !val).length > 0
+    },
+    'readyToBeServed': {
+        state: true,
+        filter: (array) => array.filter((val) => !val).length <= 0
+    }
+}
+
+/**
+ * @param {string} state  The state of the preparations that shall be returned
+ * @return {Promise<string[]>} The number of each "order" (tableNumber)
+ */
+export async function fetchPreparations(state) {
+    const res = await (await axios.get(`http://${KITCHEN_SERVICE}/preparations?state=${state}`)).data;
+
+    res.forEach((preparation) => {
+        let table = preparations.has(preparation.tableNumber) ? preparations.get(preparation.tableNumber) : new Map();
+        table.set(preparation._id, preparationConfig[state].state);
+        preparations.set(preparation.tableNumber, table);
+    });
+
+    let ret = [];
+
+    preparations.forEach((value, key) => {
+        if (preparationConfig[state].filter([...value.values()])) {
+            ret.push(key);
+        }
+    })
+
+    return ret;
 }
