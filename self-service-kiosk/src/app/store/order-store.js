@@ -41,15 +41,15 @@ export const removeItemToOrderAsync = createAsyncThunk(
 export const selectIdOrder = (state) => {
     //console.log(state.order.currentOrderId)
     return state.order.currentOrderId;
-}
+};
 
 export const selectItemsOrder = (state) => {
     return state.order.orderItems;
-}
+};
 
 export const selectOrderTable = (state) => {
     return state.order.currentTable;
-}
+};
 
 
 /**
@@ -67,49 +67,54 @@ export const sendOrderToPreparationAsync = createAsyncThunk(
 
 
 export const orderSlice = createSlice({
-    name: 'order',
-    initialState,
-    reducers: {
-        forgetOrder(state) {
-            state.orderItems = [];
-            state.currentTable = undefined;
-            state.currentOrderId = undefined;
-        }
-    },
-    /**
-     * Extra reducers are used to add thunk behavior
-     * They are trigger after the thunk behavior.
-     * @param builder
-     */
-
-    extraReducers: (builder) => {
+        name: 'order',
+        initialState,
+        reducers: {
+            forgetOrder(state) {
+                state.orderItems = [];
+                state.currentTable = undefined;
+                state.currentOrderId = undefined;
+            }
+        },
         /**
-         * Add to the store the currentOrder processed.
+         * Extra reducers are used to add thunk behavior
+         * They are trigger after the thunk behavior.
+         * @param builder
          */
-        builder.addCase(startOrderAsync.fulfilled, (state, action) => {
-            state.currentOrderId = action.payload['_id'];
-            state.currentTable = action.payload.tableNumber;
-        });
 
-        /**
-         * Add to the store the newest item added.
-         */
-        builder.addCase(addItemToOrderAsync.fulfilled, (state, action) => {
-            state.orderItems = action.payload;
-        });
+        extraReducers: (builder) => {
+            /**
+             * Add to the store the currentOrder processed.
+             */
+            builder.addCase(startOrderAsync.fulfilled, (state, action) => {
+                state.currentOrderId = action.payload?.['_id'] || 0;
+                state.currentTable = action.payload?.tableNumber || 0;
+            });
 
-        builder.addCase(removeItemToOrderAsync.fulfilled, (state, action) => {
-            state.orderItems = action.payload;
-        });
+            /**
+             * Add to the store the newest item added.
+             */
+            builder.addCase(addItemToOrderAsync.fulfilled, (state, action) => {
+                state.orderItems = action.payload;
+            });
 
-        /***
-         * When the order has been sent in preparation clean the store
-         */
-        builder.addCase(sendOrderToPreparationAsync.fulfilled, (state, action) => {
-        });
-    },
-});
-export const { forgetOrder } = orderSlice.actions;
+            builder.addCase(removeItemToOrderAsync.fulfilled, (state, action) => {
+                state.orderItems = action.payload;
+            });
+
+            /***
+             * When the order has been sent in preparation clean the store
+             */
+            builder.addCase(sendOrderToPreparationAsync.fulfilled, (state, action) => {
+
+                state.currentTable = state.currentTable === 0 ? action.payload.tableNumber : state.currentTable;
+
+            });
+        },
+    })
+;
+
+export const {forgetOrder} = orderSlice.actions;
 
 
 export default orderSlice.reducer;

@@ -28,8 +28,8 @@ const config = {
 
     'bff': {
         startOrder: async () => {
-            const orderId = await (await axios.post(`http://${BFF_HOST}/startOrder`)).data;
-            return orderId;
+            //const orderId = await (await axios.post(`http://${BFF_HOST}/startOrder`)).data;
+            //return orderId;
         },
         /**
          * Add into the order store a new item or update the quantity
@@ -66,8 +66,7 @@ const config = {
 
         },
         sendOrderToPreparation: async ({orderId}, thunkBundle) => {
-            let order = await (await axios.post(`http://${BFF_HOST}/prepareOrder/${orderId}`, thunkBundle.getState().order.orderItems)).data;
-            return order.lines;
+            return await (await axios.post(`http://${BFF_HOST}/prepareOrder`, thunkBundle.getState().order.orderItems)).data;
         }
     },
     'fm': {
@@ -114,7 +113,7 @@ const config = {
         },
         sendOrderToPreparation: async ({orderId}) => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
-
+            console.log(orderId)
             return await (await fetch(`http://${DINING_URL}/tableOrders/${orderId}/prepare`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'}
