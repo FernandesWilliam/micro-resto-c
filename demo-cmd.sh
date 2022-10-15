@@ -20,9 +20,7 @@ prepareItems() {
 deliverPreparations() {
     for id in $@
     do
-        echo "$id"
         res=$(curl -s -S -X POST "$KITCHEN/preparations/$id/takenToTable")
-        echo "$res"
     done
 }
 

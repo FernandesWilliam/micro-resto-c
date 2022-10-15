@@ -104,16 +104,19 @@ const preparationConfig = {
 export async function fetchPreparations(state) {
     const res = await (await axios.get(`http://${KITCHEN_SERVICE}/preparations?state=${state}`)).data;
 
+    let effective = new Set();
+
     res.forEach((preparation) => {
         let table = preparations.has(preparation.tableNumber) ? preparations.get(preparation.tableNumber) : new Map();
         table.set(preparation._id, preparationConfig[state].state);
         preparations.set(preparation.tableNumber, table);
+        effective.add(preparation.tableNumber);
     });
 
     let ret = [];
 
     preparations.forEach((value, key) => {
-        if (preparationConfig[state].filter([...value.values()])) {
+        if (preparationConfig[state].filter([...value.values()]) && effective.has(key)) {
             ret.push(key);
         }
     })
