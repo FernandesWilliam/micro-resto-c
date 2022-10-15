@@ -19,12 +19,8 @@ app.post('/startOrder', async (req, res) => {
 })
 
 
-app.post('/prepareOrder/:id', (req, res) => {
-    if (req.params.id === undefined) {
-        res.status(400).send('`orderId` is undefined');
-        return;
-    }
-    res.send(sendItemsToPreparation(req.params.id, req.body));
+app.post('/prepareOrder', async (req, res) => {
+    res.send(await sendItemsToPreparation(req.body));
 })
 
 app.delete('/order/:idOrder/item/:idItem', async (req, res) => {

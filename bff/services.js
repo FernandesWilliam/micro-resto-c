@@ -13,13 +13,13 @@ export async function startOrder() {
     const order = await createOrder(table);
     return {
         _id: order['_id'],
-        tableNumber: order.tableNumber
+        tableNumber: parseInt(order.tableNumber)
     };
 }
 
 
 async function getAvailableTable() {
-    let tables = await (await axios.get(`http://${DINING_SERVICE}/tables`)).data
+    let tables = await (await axios.get(`http://${DINING_SERVICE}/tables`)).data;
     // filter by availability
     let table = tables.filter((table) => !table['taken'])?.[0];
     if (table === undefined) {
@@ -65,11 +65,13 @@ export async function removeItemFromOrder(orderID, menuItem) {
     return order;
 }
 
-export async function sendItemsToPreparation(orderId, order) {
+export async function sendItemsToPreparation(order) {
+    let {_id,tableNumber} = await startOrder();
     for(const element of order) {
-        await addItemToOrder(orderId, element)
+        await addItemToOrder(_id, element);
     }
-    return await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${orderId}/prepare`)).data;
+    await (await axios.post(`http://${DINING_SERVICE}/tableOrders/${_id}/prepare`)).data;
+    return {tableNumber};
 }
 
 // Preparations
@@ -102,16 +104,19 @@ const preparationConfig = {
 export async function fetchPreparations(state) {
     const res = await (await axios.get(`http://${KITCHEN_SERVICE}/preparations?state=${state}`)).data;
 
+    let effective = new Set();
+
     res.forEach((preparation) => {
         let table = preparations.has(preparation.tableNumber) ? preparations.get(preparation.tableNumber) : new Map();
         table.set(preparation._id, preparationConfig[state].state);
         preparations.set(preparation.tableNumber, table);
+        effective.add(preparation.tableNumber);
     });
 
     let ret = [];
 
     preparations.forEach((value, key) => {
-        if (preparationConfig[state].filter([...value.values()])) {
+        if (preparationConfig[state].filter([...value.values()]) && effective.has(key)) {
             ret.push(key);
         }
     })

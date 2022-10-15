@@ -10,7 +10,6 @@ export const catalogConfig = {
         fetchMenus: async () => {
             let menuPort = process.env.REACT_APP_MENU_URL;
             let res = await fetch(`http://${menuPort}/menus`);
-
             return await res.json();
         }
     },

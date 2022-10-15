@@ -2,7 +2,9 @@
     width: 60%;
     height: 150px;
     display: table;
-    margin-bottom: 10%;
+    /* margin-bottom: 10%; */
+    position: absolute;
+    bottom: 5vh;
 }
 
 #start p {
@@ -32,11 +34,16 @@
 
  
 #around img {
-    height: 40%;
-    width: 40%;
-    margin: 20% 0;
+    height: 50vh;
+    margin-top: 4%;
 }
 
 .main {
     max-height: 100vh;
+    min-height: 95vh;
+}
+
+img {
+    display: block;
+    margin: auto;
 }

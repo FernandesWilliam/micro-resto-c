@@ -42,8 +42,7 @@ export function Menu() {
     const menus = useSelector(selectMenus);
     const idOrder = useSelector(selectIdOrder)
 
-    const orderItemsInState = useSelector(selectItemsOrder)
-    const orderItems = orderItemsInState === undefined ? [] : orderItemsInState;
+    const orderItems = useSelector(selectItemsOrder);
 
     const categories = menus.map(m => m.category).filter(onlyUnique);
 
@@ -102,8 +101,7 @@ export function Menu() {
             {category.catMenu.map(({_id, image, category, shortName, price}, index) =>
                 <div className={'item-card'} key={index}
                      onClick={() => {
-
-                         toggle(_id, idOrder);
+                        toggle(_id, idOrder);
                      }}>
                     <img src={image} className={'img-display'} alt={'Failure loading'}/>
                     <div className={'description'}>
@@ -117,9 +115,7 @@ export function Menu() {
         <div className={"footerMenu"} onClick={ () =>setOpen(true) }>
             <div className={"drawerMenu"}>
                 <div className={'orderItemsMenu'}>
-                    {orderItems.slice(0, 3).map(({item, howMany},key) =>
-                        <div key={key} className={"plus-minus"}>{howMany}x {item.shortName}</div>
-                    )}
+                    Total dishes selected : {orderItems.reduce((acc,curr)=>acc+curr.howMany,0)}
                 </div>
                 <button className={"button-1"}>Validate</button>
             </div>

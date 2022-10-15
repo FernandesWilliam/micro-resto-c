@@ -9,7 +9,6 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
     const menus = useSelector(selectMenus);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         dispatch(getMenusAsync());
     }, [dispatch]);
@@ -89,6 +88,7 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
                   .add {
                     display: flex;
                     justify-content: space-between;
+                    padding: 10px;
                   }
 
                   .remove-add {

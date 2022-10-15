@@ -33,19 +33,22 @@ export const preparationConfig = {
         fetchPreparationsReady: async () => {
             let res = await (await fetch(`http://${KITCHEN_HOST}/preparations?state=readyToBeServed`)).json();
 
+            let effective = new Set();
+
             res.forEach((preparation) => {
                 if (preparationConfig['fm'].preparations.has(preparation.tableNumber)) {
                     preparationConfig['fm'].preparations.get(preparation.tableNumber).set(preparation._id, true);
+                    effective.add(preparation.tableNumber);
                 }
             });
 
             let prepared = [];
 
             preparationConfig['fm'].preparations.forEach((value, key) => {
-                if ([...value.values()].filter((val) => !val).length <= 0) {
+                if ([...value.values()].filter((val) => !val).length <= 0 && effective.has(key)) {
                     prepared.push(key);
                 }
-            })
+            });
 
             return prepared;
         }

@@ -1,27 +1,23 @@
 p {
-    width: 100vw;
     text-align: center;
 }
 
 #return-home {
     width: 30vw;
-    height: 75px;
-    display: table;
-    margin-bottom: 10%;
-
+    padding: 5vh;
     cursor: pointer;
     border-radius: 45px;
     box-shadow: 5px 5px 5px #660000;
-    display: table-cell;
-    vertical-align: middle;
     background-color: rgba(204,25,0,0.4);
     color:white;
     text-align: center;
     font: 900 20px sans-serif;
-    margin-bottom: 100px;
+    margin: auto;
 }
 
 .button-container {
     text-align: center;
     width: 100vw;
+    position: absolute;
+    bottom: 5vh;
 }
