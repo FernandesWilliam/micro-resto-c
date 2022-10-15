@@ -82,7 +82,7 @@ i{
 }
 
 .menu-list{
-    height: 75vh;
+    height: 70vh;
     overflow-y: scroll;
     padding: 13px;
     display: grid;
