@@ -117,9 +117,7 @@ export function Menu() {
         <div className={"footerMenu"} onClick={ () =>setOpen(true) }>
             <div className={"drawerMenu"}>
                 <div className={'orderItemsMenu'}>
-                    {orderItems.slice(0, 3).map(({item, howMany},key) =>
-                        <div key={key} className={"plus-minus"}>{howMany}x {item.shortName}</div>
-                    )}
+                    Total dishes selected : {orderItems.reduce((acc,curr)=>acc+curr.howMany,0)}
                 </div>
                 <button className={"button-1"}>Validate</button>
             </div>

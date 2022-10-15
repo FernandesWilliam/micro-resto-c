@@ -3,15 +3,23 @@ import axios from 'axios';
 const extractBody = async (url, option = {}) => {
     const data = await (await fetch(url, option)).json();
     return data;
-}
+};
 const postOption = (data) => ({
     method: 'POST',
     body: data,
     headers: {'Content-Type': 'application/json'},
 
 });
-
 const BFF_HOST = process.env.REACT_APP_BFF_HOST;
+const itemPayload = (_id, shortName, howMany) => ({
+    sendForPreparation: false,
+    item: {
+        _id,
+        shortName
+    },
+    howMany
+});
+
 
 /**
  * Main order config. It will be used to store the behavior of each api calls
@@ -19,7 +27,6 @@ const BFF_HOST = process.env.REACT_APP_BFF_HOST;
 const config = {
 
     'bff': {
-        orders: new Map(),    
         startOrder: async () => {
             const orderId = await (await axios.post(`http://${BFF_HOST}/startOrder`)).data;
             return orderId;
@@ -34,49 +41,29 @@ const config = {
          * @return {Promise<*[]>}
          */
         addItemToOrder: async ({orderID, _id, shortName, howMany}, thunkBundle) => {
-            let itemOrder = {
-                sendForPreparation: false,
-                item: {
-                    _id,
-                    shortName
-                },
-                howMany
-            };
+            let itemOrder = itemPayload(_id, shortName, howMany);
 
             let orderItems = [...thunkBundle.getState().order.orderItems];
             let index = orderItems.findIndex((orderItem) => orderItem.item._id === _id);
             if (index !== -1) {
                 const item = orderItems[index];
                 itemOrder.howMany += item.howMany;
-                orderItems.splice(index, 1);
-            }
-            orderItems.push(itemOrder);
-
-            {
-                let order = config.bff.orders.has(orderID) ? config.bff.orders.get(orderID) : [];
-                order.push(orderItems);
-                config.bff.orders.set(orderID, order);
-            }
+                orderItems.splice(index, 1, itemOrder);
+            } else orderItems.push(itemOrder);
             return orderItems;
         },
         removeItemToOrder: async ({orderID, menuItem}, thunkBundle) => {
-            let itemOrder = {
-                sendForPreparation: false,
-                item: {},
-                howMany: 0,
-            };
+            let itemOrder = itemPayload('', '', 0);
             let orderItems = [...thunkBundle.getState().order.orderItems];
             let index = orderItems.findIndex((orderItem) => orderItem.item._id === menuItem);
             let item = orderItems[index];
-            if (index !== -1) {
-                itemOrder.howMany = item.howMany - 1;
-                itemOrder.item = item.item
-                orderItems.splice(index, 1);
-                if(itemOrder.howMany>0)
-                    orderItems.push(itemOrder);
-                return orderItems;
-            }
-            return thunkBundle.getState().order.orderItems.filter(element => element._id !== menuItem._id);
+            if (index === -1)
+                return orderItems.filter(element => element._id !== menuItem._id);
+            itemOrder.howMany = item.howMany - 1;
+            itemOrder.item = item.item;
+            itemOrder.howMany > 0 ? orderItems.splice(index, 1, itemOrder) : orderItems.splice(index, 1);
+            return orderItems;
+
         },
         sendOrderToPreparation: async ({orderId}, thunkBundle) => {
             let order = await (await axios.post(`http://${BFF_HOST}/prepareOrder/${orderId}`, thunkBundle.getState().order.orderItems)).data;
@@ -137,7 +124,7 @@ const config = {
         removeItemToOrder: async ({orderID, menuItem}) => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
             let option =
-                    {
+                {
                     method: "DELETE"
                 };
             let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}/${menuItem}`, option);

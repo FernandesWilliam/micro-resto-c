@@ -9,7 +9,6 @@ const Modal = ({isShowing, hide, itemId, idOrder}) => {
     const menus = useSelector(selectMenus);
     const dispatch = useDispatch();
 
-
     useEffect(() => {
         dispatch(getMenusAsync());
     }, [dispatch]);

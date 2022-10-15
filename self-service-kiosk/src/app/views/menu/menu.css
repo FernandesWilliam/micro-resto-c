@@ -13,6 +13,7 @@
 
 .drawerMenu{
     display: flex;
+    padding-top: 11px;
     justify-content: space-evenly;
     background-color: #ffffff;
     border-radius: 1rem 1rem 0 0;
@@ -33,14 +34,14 @@ i{
 }
 
 .footerMenu {
-    padding: 1rem;
+    margin-top:5px;
     background-color: white;
     position: relative;
     bottom: 0;
     left: 0;
     width: 100%;
     height: 10vh;
-    box-shadow: 0 0 50px #ccc;
+    box-shadow: 0 0 50px #3f3f3f;
 }
 
 .footerMenu:hover {
@@ -81,7 +82,7 @@ i{
 }
 
 .menu-list{
-    height: 70vh;
+    height: 75vh;
     overflow-y: scroll;
     padding: 13px;
     display: grid;
@@ -99,7 +100,11 @@ i{
     border-top-left-radius: 1rem;
 
 }
-
+.orderItemsMenu{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
 .button-1 {
     background-color: rgba(248, 21, 209, 0.78);
     border-radius: 8px;
