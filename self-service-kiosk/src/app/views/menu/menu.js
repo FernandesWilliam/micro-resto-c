@@ -42,8 +42,7 @@ export function Menu() {
     const menus = useSelector(selectMenus);
     const idOrder = useSelector(selectIdOrder)
 
-    const orderItemsInState = useSelector(selectItemsOrder)
-    const orderItems = orderItemsInState === undefined ? [] : orderItemsInState;
+    const orderItems = useSelector(selectItemsOrder);
 
     const categories = menus.map(m => m.category).filter(onlyUnique);
 
@@ -102,8 +101,7 @@ export function Menu() {
             {category.catMenu.map(({_id, image, category, shortName, price}, index) =>
                 <div className={'item-card'} key={index}
                      onClick={() => {
-
-                         toggle(_id, idOrder);
+                        toggle(_id, idOrder);
                      }}>
                     <img src={image} className={'img-display'} alt={'Failure loading'}/>
                     <div className={'description'}>

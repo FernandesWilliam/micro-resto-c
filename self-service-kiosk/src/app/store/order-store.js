@@ -1,4 +1,4 @@
-import {createAction, createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import orderConfig from '../config/order-config.js';
 
 const initialState = {
@@ -65,13 +65,17 @@ export const sendOrderToPreparationAsync = createAsyncThunk(
 //const selectOrderByID = (state, id) => state.order.orderItems[id];
 /****************** SELECTOR *************************/
 
-export const forgetOrder = createAction('forgetOrder');
-
 
 export const orderSlice = createSlice({
     name: 'order',
     initialState,
-    reducers: {},
+    reducers: {
+        forgetOrder(state) {
+            state.orderItems = [];
+            state.currentTable = undefined;
+            state.currentOrderId = undefined;
+        }
+    },
     /**
      * Extra reducers are used to add thunk behavior
      * They are trigger after the thunk behavior.
@@ -92,7 +96,6 @@ export const orderSlice = createSlice({
          */
         builder.addCase(addItemToOrderAsync.fulfilled, (state, action) => {
             state.orderItems = action.payload;
-            console.log(state.orderItems)
         });
 
         builder.addCase(removeItemToOrderAsync.fulfilled, (state, action) => {
@@ -103,18 +106,10 @@ export const orderSlice = createSlice({
          * When the order has been sent in preparation clean the store
          */
         builder.addCase(sendOrderToPreparationAsync.fulfilled, (state, action) => {
-            console.log('sendOrderToPreparationAsync: ', action.payload);
         });
-
-        builder.addCase(forgetOrder, (state, action) => {
-            if (state.orderItems)
-                state.orderItems.clear();
-            state.currentTable = undefined;
-            state.currentOrderId = undefined;
-        })
     },
 });
-export const { } = orderSlice.actions;
+export const { forgetOrder } = orderSlice.actions;
 
 
 export default orderSlice.reducer;

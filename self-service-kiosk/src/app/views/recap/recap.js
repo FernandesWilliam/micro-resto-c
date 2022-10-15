@@ -40,7 +40,7 @@ export function Recap() {
 
 
     async function addItem(itemId,  itemShortName) {
-        await dispatch(addItemToOrderAsync({
+        dispatch(addItemToOrderAsync({
             orderID: idOrder,
             _id: itemId,
             shortName: itemShortName,

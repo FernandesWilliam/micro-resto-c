@@ -13,8 +13,8 @@ export function End() {
     const orderId = useSelector(selectIdOrder)
 
     function returnHome() {
+        dispatch(forgetOrder());
         navigate('/');
-        dispatch(forgetOrder);
     }
 
     return (
