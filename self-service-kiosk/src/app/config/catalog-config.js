@@ -10,7 +10,9 @@ export const catalogConfig = {
         fetchMenus: async () => {
             let menuPort = process.env.REACT_APP_MENU_URL;
             let res = await fetch(`http://${menuPort}/menus`);
-            return await res.json();
+            let resJson = await res.json();
+            console.log("Fetching menu items from \n"+`http://${menuPort}/menus` + " \nReturned : "+JSON.stringify(resJson, null, "\t"));
+            return resJson
         }
     },
     /**
@@ -20,7 +22,9 @@ export const catalogConfig = {
         fetchMenus: async () => {
             const BFF_HOST = process.env.REACT_APP_BFF_HOST;
             let res = await fetch(`http://${BFF_HOST}/menus`);
-            return await res.json();
+            let resJson = await res.json();
+            console.log("Fetching menu items from \n"+`http://${BFF_HOST}/menus` + " \nReturned : "+JSON.stringify(resJson,null, "\t"));
+            return resJson
         }
     }
 };
