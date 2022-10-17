@@ -1,6 +1,6 @@
 import express from 'express'
 import cors from 'cors'
-import { startOrder, sendItemsToPreparation, removeItemFromOrder, getMenus, fetchPreparations } from './services.js';
+import { startOrder, sendItemsToPreparation, removeItemFromOrder, getMenus, getPreparations } from './services.js';
 const app = express()
 
 const PORT = parseInt(process.env.BFF_PORT) || 3005
@@ -29,11 +29,7 @@ app.delete('/order/:idOrder/item/:idItem', async (req, res) => {
 
 // Preparations
 app.get('/preparations', async (req, res) => {
-    if (req.query.state === undefined) {
-        res.status(400).send('`state` property is required in query');
-        return;
-    }
-    res.send(await fetchPreparations(req.query.state));
+    res.send(await getPreparations());
 });
 
 app.listen(PORT);

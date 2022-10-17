@@ -55,21 +55,27 @@ export const preparationConfig = {
             });
 
             return prepared;
+        },
+        fetchPreparations: async () => { 
+            let started = await preparationConfig['fm'].fetchPreparationsStarted();
+            let ready = await preparationConfig['fm'].fetchPreparationsReady();
+
+            return {
+                started: started,
+                ready: ready
+            }
         }
     },
     'bff': {
         // Bff part is mock as the BFF is not yet implemented
         fetchPreparationsStarted: async () => {
-            let pathPreparationStarted = `http://${BFF_HOST}/preparations?state=preparationStarted`;
-            let jsonPreparationState = await (await fetch(pathPreparationStarted)).json();
-            console.log("Fetch started preparations : \n"+pathPreparationStarted+ " : "+JSON.stringify(jsonPreparationState,null, "\t"))
-            return jsonPreparationState
+            
         },
         fetchPreparationsReady: async () => {
-            let pathPreparationReady = `http://${BFF_HOST}/preparations?state=readyToBeServed`;
-            let jsonPreparationState = await (await fetch(`http://${BFF_HOST}/pathPreparationReady`)).json();
-            console.log("Fetch ready preparations : \n"+pathPreparationReady+ " : "+JSON.stringify(jsonPreparationState,null, "\t"));
-            return jsonPreparationState;
+            
+        },
+        fetchPreparations: async () => {
+            return await (await fetch(`http://${BFF_HOST}/preparations`)).json();
         }
     }
 }

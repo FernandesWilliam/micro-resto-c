@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   front-end:
-    image: micro-restaurant/self-service-kiosk
+    image: micro-restaurant/self-service-kiosk:1.0
     ports:
       - "${FRONT_PORT}:${FRONT_PORT}"
     depends_on:
@@ -17,14 +17,11 @@ services:
       - REACT_APP_DINING_URL=localhost:9500/dining
       - REACT_APP_CONFIG=fm
       - PORT=${FRONT_PORT}
-    volumes:
-      - ./self-service-kiosk/:/self-service-kiosk/
-    # entrypoint: "bash -c './wait-for-it.sh $${REACT_APP_GATEWAY} -- npm run start'"
     networks:
       - nestjs-restaurant-network
 
   front-end-bff:
-    image: micro-restaurant/self-service-kiosk-bff
+    image: micro-restaurant/self-service-kiosk-bff:1.0
     depends_on:
       - bff
     ports:
@@ -33,14 +30,11 @@ services:
       - REACT_APP_BFF_HOST=localhost:${BFF_PORT}
       - REACT_APP_CONFIG=bff
       - PORT=${FRONT_BFF_PORT}
-    volumes:
-      - ./self-service-kiosk/:/self-service-kiosk/
-    # entrypoint: "bash -c './wait-for-it.sh -t 30 bff:${BFF_PORT} -- npm run start'"
     networks:
       - nestjs-restaurant-network
 
   bff:
-    image: micro-restaurant/bff
+    image: micro-restaurant/bff:1.0
     ports:
       - "${BFF_PORT}:${BFF_PORT}"
     depends_on:
@@ -54,9 +48,6 @@ services:
       - KITCHEN_URL=${GATEWAY}:3000/kitchen
       - DINING_SERVICE_URL_WITH_PORT=${GATEWAY}:3000/dining
       - BFF_PORT=${BFF_PORT}
-    volumes:
-      - ./bff/:/bff/
-    # entrypoint: "bash -c './wait-for-it.sh $${GATEWAY_URL_WITH_PORT} -- npm run start:dev'"
     networks:
       - nestjs-restaurant-network
     restart: always

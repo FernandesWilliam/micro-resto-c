@@ -10,24 +10,9 @@ export const sendOrderToPreparationAsync = createAsyncThunk(
     catalogConfig[process.env.REACT_APP_CONFIG]['sendOrderToPreparation']
 );
 
-/**
- * Fetch the preparations started
- */
-export const getPreparationsStarted = createAsyncThunk(
-    // Action prefix which must be unique
-    'preparationsStarted',
-    // Method to call in my configuration
-    preparationsMethods['fetchPreparationsStarted']
-);
-
-/**
- * Fetch the preparations ready to be served
- */
-export const getPreparationsReady = createAsyncThunk(
-    // Action prefix which must be unique
-    'preparationsReady',
-    // Method to call in my configuration
-    preparationsMethods['fetchPreparationsReady']
+export const getPreparations = createAsyncThunk(
+    'get/preparations',
+    preparationsMethods['fetchPreparations']
 )
 
 
@@ -48,17 +33,11 @@ export const preparationSlice = createSlice({
         });
 
         /**
-         * Get the orders sent for preparations
+         * Get the preparations
          */
-        builder.addCase(getPreparationsStarted.fulfilled, (state, action) => {
-            state.started = action.payload
-        })
-
-        /**
-         * Get the orders ready for pickup
-         */
-        builder.addCase(getPreparationsReady.fulfilled, (state, action) => {
-            state.ready = action.payload
+        builder.addCase(getPreparations.fulfilled, (state, action) => {
+            state.started = action.payload.started;
+            state.ready = action.payload.ready;
         })
     },
 });
