@@ -18,6 +18,7 @@ import {
 } from "../../store/order-store";
 import {useNavigate} from "react-router-dom";
 import {Title} from "../title/title";
+import { BackButton } from "../back-button/back-button.js";
 
 /**
  * filter to get all distinct element in a list
@@ -93,6 +94,7 @@ export function Menu() {
 
     return <div className={"main"}>
         <Title />
+        <BackButton action={() => console.log('Back')} />
         <div id={'filters'}>
             {categories.map((cat, i) =>
                 <div key={i} onClick={() => changeCat(cat)}>{cat}</div>

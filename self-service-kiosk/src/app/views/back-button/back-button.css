@@ -1,0 +1,12 @@
+#back-button {
+    position: absolute;
+    top: 0.5%;
+    left: 0.5%;
+
+    max-width: 2vw;
+    min-width: 1vw;
+}
+
+#back-button:hover {
+    cursor: pointer;
+}
