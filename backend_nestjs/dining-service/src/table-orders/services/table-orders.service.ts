@@ -50,8 +50,8 @@ export class TableOrdersService {
 
   private async takeTableForKioskOrder() {
     const tables = await this.tablesService.findAll();
-    let tableNumber = -1;
-    for (let i = 1; i < tables.length + 1; i++) {
+    let tableNumber = tables.length + 1;
+    for (let i = 1; i < tables.length; i++) {
       if (!tables.find((table) => table.number === i)) {
         tableNumber = i;
         break;
@@ -59,7 +59,7 @@ export class TableOrdersService {
     }
 
     const table = await this.tablesService.create({
-      number: (await this.tablesService.findAll()).length + 1,
+      number: tableNumber,
     });
     return await this.tablesService.takeTable(table.number);
   }
