@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const extractBody = async (url, option = {}) => {
-    const data = await (await fetch(url, option)).json();
-    return data;
+    return await (await fetch(url, option)).json();
 };
 const postOption = (data) => ({
     method: 'POST',
@@ -80,22 +79,24 @@ const config = {
          */
         startOrder: async () => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
-            // fetch all tables
-            let pathTables = `http://${DINING_URL}/tables`;
-            let tables = await extractBody(pathTables);
-            console.log("Fetch tables : \n"+pathTables + " \nReturned : " + JSON.stringify(tables,null, "\t"))
-
-            // filter by availability
-            let table = tables.filter((table) => !table['taken'])?.[0];
-            if (table === undefined) {
-                let maxTableCount = Math.max(...tables.map((table => table.number)));
-                let option = postOption(JSON.stringify({number: maxTableCount + 1}));
-                console.log("Not enough tables, add new tables : \n"+pathTables)
-                table = await extractBody(pathTables, option);
-            }
+            // // fetch all tables
+            // let pathTables = `http://${DINING_URL}/tables`;
+            // let tables = await extractBody(pathTables);
+            // console.log("Fetch tables : \n"+pathTables + " \nReturned : " + JSON.stringify(tables,null, "\t"))
+            //
+            // // filter by availability
+            // let table = tables.filter((table) => !table['taken'])?.[0];
+            // if (table === undefined) {
+            //     let maxTableCount = Math.max(...tables.map((table => table.number)));
+            //     let option = postOption(JSON.stringify({number: maxTableCount + 1}));
+            //     console.log("Not enough tables, add new tables : \n"+pathTables)
+            //     table = await extractBody(pathTables, option);
+            // }
             let option = postOption(JSON.stringify({
-                "tableNumber": table['number'],
-                "customersCount": 1
+                "tableNumber": 1,
+                "customersCount": 1,
+                kioskOrder: true,
+                tablePartitionNumber: 1
             }));
             // create an order
             let diningPath = `http://${DINING_URL}/tableOrders`;

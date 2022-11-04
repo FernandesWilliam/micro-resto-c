@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
 
 export class StartOrderingDto {
   @IsNotEmpty()
@@ -8,4 +8,11 @@ export class StartOrderingDto {
   @IsNotEmpty()
   @IsPositive()
   customersCount: number;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  kioskOrder: boolean;
+
+  @IsNumber()
+  tablePartitionNumber: number;
 }

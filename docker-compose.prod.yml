@@ -21,7 +21,7 @@ services:
       - nestjs-restaurant-network
 
   front-end-bff:
-    image: micro-restaurant/self-service-kiosk-bff:1.0
+    image: micro-restaurant/self-service-kiosk:1.0
     depends_on:
       - bff
     ports:

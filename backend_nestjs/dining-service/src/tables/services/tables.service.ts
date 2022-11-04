@@ -23,15 +23,17 @@ export class TablesService {
   async findAll(): Promise<TableWithOrderDto[]> {
     const allTables: Table[] = await this.tableModel.find().lean();
 
-    const allTablesWithOrder = allTables.map((table) => (
-      this.tablesWithOrderService.tableToTableWithOrder(table)
-    ));
+    const allTablesWithOrder = allTables.map((table) =>
+      this.tablesWithOrderService.tableToTableWithOrder(table),
+    );
 
     return Promise.all(allTablesWithOrder);
   }
 
   async findByNumber(tableNumber: number): Promise<TableWithOrderDto> {
-    const foundItem = await this.tableModel.findOne({ number: tableNumber }).lean();
+    const foundItem = await this.tableModel
+      .findOne({ number: tableNumber })
+      .lean();
 
     if (foundItem === null) {
       throw new TableNumberNotFoundException(tableNumber);
@@ -41,7 +43,9 @@ export class TablesService {
   }
 
   async create(addTableDto: AddTableDto): Promise<TableWithOrderDto> {
-    const alreadyExists = await this.tableModel.find({ number: addTableDto.number });
+    const alreadyExists = await this.tableModel.find({
+      number: addTableDto.number,
+    });
     if (alreadyExists.length > 0) {
       throw new TableAlreadyExistsException(addTableDto.number);
     }
@@ -50,8 +54,12 @@ export class TablesService {
     return this.tablesWithOrderService.tableToTableWithOrder(newTable);
   }
 
+  async delete(tableNumber: number) {
+    await this.tableModel.findOneAndDelete({ number: tableNumber });
+  }
+
   async takeTable(tableNumber: number): Promise<Table> {
-    const table:Table = await this.findByNumber(tableNumber);
+    const table: Table = await this.findByNumber(tableNumber);
 
     if (table.taken) {
       throw new TableAlreadyTakenException(tableNumber);
@@ -59,11 +67,13 @@ export class TablesService {
 
     table.taken = true;
 
-    return this.tableModel.findByIdAndUpdate(table._id, table, { returnDocument: 'after' });
+    return this.tableModel.findByIdAndUpdate(table._id, table, {
+      returnDocument: 'after',
+    });
   }
 
   async releaseTable(tableNumber: number): Promise<Table> {
-    const table:Table = await this.findByNumber(tableNumber);
+    const table: Table = await this.findByNumber(tableNumber);
 
     if (!table.taken) {
       throw new TableAlreadyFreeException(tableNumber);
@@ -71,6 +81,8 @@ export class TablesService {
 
     table.taken = false;
 
-    return this.tableModel.findByIdAndUpdate(table._id, table, { returnDocument: 'after' });
+    return this.tableModel.findByIdAndUpdate(table._id, table, {
+      returnDocument: 'after',
+    });
   }
 }
