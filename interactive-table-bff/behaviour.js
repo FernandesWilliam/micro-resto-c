@@ -42,25 +42,34 @@ export async function sendItemsToPreparation(tableNumber, partitionNumber, order
 }
 
 export async function getPreparations(tableNumber) {
+	if (tableNumber === 'null') return [];
+
 	let started = await fetchPreparations('preparationStarted', tableNumber);
 	let ready = await fetchPreparations('readyToBeServed', tableNumber);
 
+	return [...started, ...ready];
+}
+
+function toDishStatus(dish) {
 	return {
-		started: started,
-		ready: ready
+		shortName: dish.shortName,
+		startedAt: dish.startedAt,
+		finishedAt: dish.finishedAt
 	}
 }
 
-export async function fetchPreparations(state, tableNumber) {
-	const res = await (await axios.get(`http://${KITCHEN}/preparations?state=${state}`)).data;
+function toPreparationStatus(preparation) {
+	return [...preparation.preparedItems.map((dish) => toDishStatus(dish))];
+}
+
+async function fetchPreparations(state, tableNumber) {
+	const res = await (await axios.get(`http://${KITCHEN}/preparations?tableNumber=${tableNumber}&state=${state}`)).data;
 
 	let ret = [];
 
 	res.forEach((preparation) => {
-		if (preparation.tableNumber === tableNumber) {
-			res.push(preparation);
-		}
-	});
+		ret.push(...toPreparationStatus(preparation));
+	})
 
 	return ret;
 }

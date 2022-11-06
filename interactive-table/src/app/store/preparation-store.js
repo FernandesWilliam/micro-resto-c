@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const BFF = process.env.REACT_APP_BFF_HOST;
 
-export const getPreparations = createAsyncThunk(
+export const getOrderStatus = createAsyncThunk(
 	'get/preparations',
-	async ({tableNumber}) => {
+	async ({}, thunkBundle) => {
+		const tableNumber = thunkBundle.getState().order.tableNumber;
 		return await (await fetch(`http://${BFF}/preparations/${tableNumber}`)).json();
 	}
 );
@@ -12,15 +13,13 @@ export const getPreparations = createAsyncThunk(
 const preparationSlice = createSlice({
 	name: 'preparations',
 	initialState: {
-		started: [],
-		ready: []
+		status: []
 	},
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
-			.addCase(getPreparations.fulfilled, (state, action) => {
-				state.started = action.payload.started;
-				state.ready = action.payload.ready;
+			.addCase(getOrderStatus.fulfilled, (state, action) => {
+				state.status = action.payload;
 			})
 	}
 });
@@ -28,3 +27,5 @@ const preparationSlice = createSlice({
 export const {} = preparationSlice.actions;
 
 export default preparationSlice.reducer;
+
+export const selectOrderStatus = (state) => state.preparations.status;

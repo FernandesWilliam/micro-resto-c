@@ -91,6 +91,7 @@ services:
       - ./interactive-table-bff:/app
     networks:
       - nestjs-restaurant-network
+    restart: always
 
 networks:
   nestjs-restaurant-network:

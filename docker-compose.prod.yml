@@ -78,6 +78,7 @@ services:
       - ${GATEWAY}
     networks:
       - nestjs-restaurant-network
+    restart: always
 
 networks:
   nestjs-restaurant-network:
