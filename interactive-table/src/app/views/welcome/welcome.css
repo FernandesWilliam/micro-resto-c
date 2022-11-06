@@ -1,0 +1,30 @@
+#start {
+    width: 60%;
+    height: 150px;
+
+    display: table;
+    position: absolute;
+    bottom: 5vh;
+}
+
+#around {
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
+#around img {
+    height: 50vh;
+    margin-top: 4%;
+}
+
+
+
+img {
+    display: block;
+    margin: auto;
+}

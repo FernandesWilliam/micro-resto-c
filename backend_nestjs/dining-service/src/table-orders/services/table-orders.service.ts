@@ -21,6 +21,7 @@ import { TableOrderIdNotFoundException } from '../exceptions/table-order-id-not-
 import { AddMenuItemDtoNotFoundException } from '../exceptions/add-menu-item-dto-not-found.exception';
 import { TableOrderAlreadyBilledException } from '../exceptions/table-order-already-billed.exception';
 import { DeleteMenuItemNotFoundException } from '../exceptions/delete-menu-item-not-found.exception';
+import { TableSubOrder } from '../schemas/table-sub-order.schema';
 
 @Injectable()
 export class TableOrdersService {
@@ -65,14 +66,34 @@ export class TableOrdersService {
   }
 
   async startOrdering(startOrderingDto: StartOrderingDto): Promise<TableOrder> {
+    let tableOrder: TableOrder = await this.tableOrderModel
+      .findOne({tableNumber: startOrderingDto.tableNumber, billed: null})
+      .lean();
+
     let table: Table;
     if (startOrderingDto.kioskOrder) {
       table = await this.takeTableForKioskOrder();
     } else {
-      table = await this.tablesService.takeTable(startOrderingDto.tableNumber);
+      const subOrders = [];
+      if (tableOrder === null)
+        table = await this.tablesService.takeTable(startOrderingDto.tableNumber);
+      else
+        subOrders.push(...tableOrder.sub_orders);
+
+      const subOrder: TableSubOrder = {
+        tablePartitionNumber: startOrderingDto.tablePartitionNumber,
+        lines: [], billed: null
+      }
+
+      if (!subOrders.find((s) => s.tablePartitionNumber === subOrder.tablePartitionNumber))
+        subOrders.push(subOrder);
+
+      tableOrder.sub_orders = subOrders;
     }
 
-    const tableOrder: TableOrder = new TableOrder();
+    if (tableOrder === null)
+      tableOrder = new TableOrder();
+
     tableOrder.tableNumber = table.number;
     tableOrder.customersCount = startOrderingDto.customersCount;
     tableOrder.opened = new Date();

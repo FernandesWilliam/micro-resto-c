@@ -13,9 +13,5 @@ export class TableSubOrder {
 
   @ApiProperty()
   @Prop({ default: null })
-  opened: Date;
-
-  @ApiProperty()
-  @Prop({ default: null })
   billed: Date;
 }

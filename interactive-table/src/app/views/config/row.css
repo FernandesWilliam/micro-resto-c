@@ -1,0 +1,8 @@
+label>span:first-child {
+    margin-right: 5px;
+}
+
+label {
+    display: block;
+    padding: 5px;
+}

@@ -1,0 +1,95 @@
+.add {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.remove-add {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.add-card {
+    justify-content: right;
+}
+
+i {
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+.price {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+
+#add-to-cart-button {
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 300vh;
+    z-index: 1040;
+}
+
+.modal-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1050;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    outline: 0;
+    display: flex;
+    align-items: center;
+}
+
+.modal {
+    z-index: 100;
+    position: relative;
+    margin: auto;
+    border-radius: 5px;
+    max-width: 500px;
+    width: 80%;
+    padding: 1rem;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-close-button {
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}

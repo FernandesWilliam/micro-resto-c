@@ -52,6 +52,33 @@ services:
       - nestjs-restaurant-network
     restart: always
 
+  interactive-table:
+    image: micro-restaurant/interactive-table:1.0
+    ports:
+      - "${INTERACTIVE_TABLE_PORT}:${INTERACTIVE_TABLE_PORT}"
+    depends_on:
+      - interactive-table-bff
+    environment:
+      PORT: ${INTERACTIVE_TABLE_PORT}
+      REACT_APP_BFF_HOST: localhost:${INTERACTIVE_TABLE_BFF_PORT}
+    networks:
+      - nestjs-restaurant-network
+
+  interactive-table-bff:
+    image: micro-restaurant/interactive-table-bff:1.0
+    ports:
+      - "${INTERACTIVE_TABLE_BFF_PORT}:${INTERACTIVE_TABLE_BFF_PORT}"
+    environment:
+      PORT: ${INTERACTIVE_TABLE_BFF_PORT}
+      GATEWAY: ${GATEWAY}
+      MENU: ${GATEWAY}:3000/menu
+      KITCHEN: ${GATEWAY}:3000/kitchen
+      DINING: ${GATEWAY}:3000/dining
+    depends_on:
+      - ${GATEWAY}
+    networks:
+      - nestjs-restaurant-network
+
 networks:
   nestjs-restaurant-network:
     driver: bridge

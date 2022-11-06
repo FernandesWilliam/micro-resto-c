@@ -1,0 +1,26 @@
+#validate-btn {
+    width: 40%;
+    font-size: 20px;
+}
+
+footer {
+    text-align: center;
+    width: 100vw;
+}
+
+.radio-btn:first-letter {
+    text-transform: capitalize;
+}
+.radio-btn:hover {
+    cursor: pointer;
+}
+.radio-btn {
+    --box-shadow-color: #000;
+    box-shadow: 5px 5px 5px var(--box-shadow-color);
+    border-radius: 5px;
+    display: inline;
+    padding: 5px;
+}
+.radio-btn ~ .radio-btn {
+    margin-left: 7px;
+}
