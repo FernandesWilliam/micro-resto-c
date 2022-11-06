@@ -4,7 +4,7 @@ const DINING_SERVICE = process.env.DINING_SERVICE_URL_WITH_PORT || 'localhost:95
 const MENUS_SERVICE = process.env.MENU_SERVICE_URL_WITH_PORT || 'http://localhost:9500/menu';
 const KITCHEN_SERVICE = process.env.KITCHEN_URL || 'localhost:9500/kitchen';
 
-const DEFAULT_TABLE_NUMBER = 1;
+const DEFAULT_TABLE_NUMBER = -1;
 
 export async function getMenus() {
     return await (await axios.get(`http://${MENUS_SERVICE}/menus`)).data 

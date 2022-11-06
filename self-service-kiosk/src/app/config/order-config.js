@@ -93,10 +93,10 @@ const config = {
             //     table = await extractBody(pathTables, option);
             // }
             let option = postOption(JSON.stringify({
-                "tableNumber": 1,
+                "tableNumber": -1,
                 "customersCount": 1,
                 kioskOrder: true,
-                tablePartitionNumber: 1
+                tablePartitionNumber: -1
             }));
             // create an order
             let diningPath = `http://${DINING_URL}/tableOrders`;

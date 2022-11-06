@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -81,6 +81,10 @@ export class TableOrdersService {
       table = await this.takeTableForKioskOrder();
       tableOrder.customersCount = startOrderingDto.customersCount;
     } else {
+      if (startOrderingDto.tableNumber <= 0) {
+        throw new BadRequestException('tableNumber must  be a positive number');
+      }
+
       const subOrders = [];
       if (toCreate) {
         table = await this.tablesService.takeTable(startOrderingDto.tableNumber);
@@ -116,9 +120,28 @@ export class TableOrdersService {
       );
   }
 
+  private addItemIntoLines(lines: OrderingLine[], addMenuItemDto: AddMenuItemDto, orderingItem: OrderingItem) {
+    const orderLines = lines;
+    const lineIndex = orderLines.findIndex(
+      (line) => line.item?._id === addMenuItemDto.menuItemId,
+    );
+
+    if (lineIndex !== -1) {
+      orderLines[lineIndex].howMany += addMenuItemDto.howMany;
+    } else {
+      const orderingLine: OrderingLine = new OrderingLine();
+      orderingLine.item = orderingItem;
+      orderingLine.howMany = addMenuItemDto.howMany;
+      orderLines.push(orderingLine);
+    }
+
+    return orderLines;
+  }
+
   async addOrderingLineToTableOrder(
     tableOrderId: string,
     addMenuItemDto: AddMenuItemDto,
+    tablePartitionNumber?: number
   ): Promise<TableOrder> {
     const tableOrder: TableOrder = await this.findOne(tableOrderId);
 
@@ -139,23 +162,18 @@ export class TableOrdersService {
       throw new AddMenuItemDtoNotFoundException(addMenuItemDto);
     }
 
-    const orderLines = tableOrder.lines;
-    const lineIndex = orderLines.findIndex(
-      (line) => line.item?._id === addMenuItemDto.menuItemId,
-    );
+    const orderLines = this.addItemIntoLines(tableOrder.lines, addMenuItemDto, orderingItem);
 
-    if (lineIndex !== -1) {
-      orderLines[lineIndex].howMany += addMenuItemDto.howMany;
-    } else {
-      const orderingLine: OrderingLine = new OrderingLine();
-      orderingLine.item = orderingItem;
-      orderingLine.howMany = addMenuItemDto.howMany;
-      orderLines.push(orderingLine);
+    if (tablePartitionNumber) {
+      const subOrder = tableOrder.sub_orders.find((sub) => sub.tablePartitionNumber === parseInt('' + tablePartitionNumber));
+      if (subOrder) {
+        subOrder.lines = this.addItemIntoLines(subOrder.lines, addMenuItemDto, orderingItem);
+      }
     }
 
     return this.tableOrderModel.findByIdAndUpdate(
       tableOrder._id,
-      { $set: { lines: orderLines } },
+      { $set: { lines: orderLines, sub_orders: tableOrder.sub_orders } },
       { returnDocument: 'after' },
     );
   }

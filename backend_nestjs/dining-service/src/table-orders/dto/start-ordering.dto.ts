@@ -1,8 +1,8 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsPositive } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive } from 'class-validator';
 
 export class StartOrderingDto {
   @IsNotEmpty()
-  @IsPositive()
+  @IsNumber()
   tableNumber: number;
 
   @IsNotEmpty()
@@ -13,6 +13,7 @@ export class StartOrderingDto {
   @IsBoolean()
   kioskOrder: boolean;
 
+  @IsOptional()
   @IsNumber()
   tablePartitionNumber: number;
 }

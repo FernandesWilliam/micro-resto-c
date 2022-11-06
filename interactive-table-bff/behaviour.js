@@ -22,10 +22,10 @@ async function startOrder(tableNumber, partitionNumber) {
 	}
 }
 
-async function addItemToOrder(orderID, element) {
+async function addItemToOrder(orderID, tablePartitionNumber, element) {
 	if (element.sentInPreparation) return;
 
-	return await (await axios.post(`http://${DINING}/tableOrders/${orderID}`, JSON.stringify({
+	return await (await axios.post(`http://${DINING}/tableOrders/${orderID}?tablePartitionNumber=${tablePartitionNumber}`, JSON.stringify({
 		menuItemId: element.item._id,
 		menuItemShortName: element.item.shortName,
 		howMany: element.howMany
@@ -35,7 +35,7 @@ async function addItemToOrder(orderID, element) {
 export async function sendItemsToPreparation(tableNumber, partitionNumber, order) {
 	let { _id } = await startOrder(tableNumber, partitionNumber);
 	for (const element of order) {
-		await addItemToOrder(_id, element);
+		await addItemToOrder(_id, partitionNumber, element);
 	}
 	await (await axios.post(`http://${DINING}/tableOrders/${_id}/prepare`)).data;
 	return { _id }
