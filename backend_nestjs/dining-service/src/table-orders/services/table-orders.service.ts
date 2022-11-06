@@ -70,15 +70,26 @@ export class TableOrdersService {
       .findOne({tableNumber: startOrderingDto.tableNumber, billed: null})
       .lean();
 
+    let toCreate = true;
+    if (tableOrder === null)
+      tableOrder = new TableOrder();
+    else
+      toCreate = false
+
     let table: Table;
     if (startOrderingDto.kioskOrder) {
       table = await this.takeTableForKioskOrder();
+      tableOrder.customersCount = startOrderingDto.customersCount;
     } else {
       const subOrders = [];
-      if (tableOrder === null)
+      if (toCreate) {
         table = await this.tablesService.takeTable(startOrderingDto.tableNumber);
-      else
+        tableOrder.customersCount = startOrderingDto.customersCount;
+      } else {
         subOrders.push(...tableOrder.sub_orders);
+        table = { _id: undefined, number: tableOrder.tableNumber, taken: true };
+        tableOrder.customersCount += 1;
+      }
 
       const subOrder: TableSubOrder = {
         tablePartitionNumber: startOrderingDto.tablePartitionNumber,
@@ -91,15 +102,18 @@ export class TableOrdersService {
       tableOrder.sub_orders = subOrders;
     }
 
-    if (tableOrder === null)
-      tableOrder = new TableOrder();
-
     tableOrder.tableNumber = table.number;
-    tableOrder.customersCount = startOrderingDto.customersCount;
     tableOrder.opened = new Date();
     tableOrder.kioskOrder = startOrderingDto.kioskOrder;
 
-    return await this.tableOrderModel.create(tableOrder);
+    if (toCreate)
+      return await this.tableOrderModel.create(tableOrder);
+    else
+      return this.tableOrderModel.findByIdAndUpdate(
+        tableOrder._id,
+        { $set: { sub_orders: tableOrder.sub_orders, customersCount: tableOrder.customersCount }},
+        { returnDocument: 'after' }
+      );
   }
 
   async addOrderingLineToTableOrder(
