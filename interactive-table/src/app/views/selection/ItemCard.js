@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../context/theme-context';
 
 export default function ItemCard ({ dish, onClick }) {
-	const theme = useContext(ThemeContext);
+	const {theme} = useContext(ThemeContext);
 
 	return (
 		<div className='item-card'

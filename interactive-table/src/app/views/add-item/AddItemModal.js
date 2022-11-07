@@ -10,7 +10,7 @@ import { ThemeContext } from '../../context/theme-context';
 export default function AddItemModal ({isShown, hide, itemId}) {
 	const menu = useSelector(selectMenu);
 	const dispatch = useDispatch();
-	const theme = useContext(ThemeContext);
+	const {theme} = useContext(ThemeContext);
 
 	useEffect(() => {
 		dispatch(getMenu({}));
@@ -45,7 +45,11 @@ export default function AddItemModal ({isShown, hide, itemId}) {
 					<div className='modal' style={{ background: theme.background }}>
 						<div className='modal-header'>
 							<h4>{item.fullName}</h4>
-							<div className='button' onClick={quit} style={{ background: 'none', fontSize: '20px' }}>
+							<div className='button' onClick={quit} style={{
+								background: 'none',
+								'--box-shadow-color': 'none',
+								fontSize: '20px'
+							}}>
 								<span style={{ color: theme.text_color }}>&times;</span>
 							</div>
 						</div>
@@ -55,12 +59,12 @@ export default function AddItemModal ({isShown, hide, itemId}) {
 								<b className='clickable'
 								   style={{ fontSize: '20px' }}
 								   onClick={removeItem}>-</b>
-								<div>{quantity}</div>
+								<div id='quantity-display'>{quantity}</div>
 								<b className='clickable'
 								   style={{ fontSize: '20px' }}
 								   onClick={addItem}>+</b>
 							</div>
-							<div className="price">{quantity * (item?.price || 0)} €</div>
+							<div id="price-display">{quantity * (item?.price || 0)} €</div>
 						</div>
 						<div className='add-card'>
 							<Button id='add-to-cart-button' onClick={submit}>Add to card</Button>

@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { ThemeContext } from "../../context/theme-context";
 
 export default function Title() {
-    const theme = useContext(ThemeContext);
+    const {theme} = useContext(ThemeContext);
 
     return (
         <h1>

@@ -22,7 +22,7 @@ import { TableOrdersService } from '../services/table-orders.service';
 import { AddMenuItemDtoNotFoundException } from '../exceptions/add-menu-item-dto-not-found.exception';
 import { TableOrderAlreadyBilledException } from '../exceptions/table-order-already-billed.exception';
 import { PreparationDto } from '../dto/preparation.dto';
-import { AddOrderItemQueryParams } from '../params/add-order-item.params';
+import { TablePartitionQueryParams } from '../params/add-order-item.params';
 
 @ApiTags('tableOrders')
 @Controller('/tableOrders')
@@ -61,7 +61,7 @@ export class TableOrdersController {
   @ApiUnprocessableEntityResponse({ type: TableOrderAlreadyBilledException, description: 'TableOrder is already billed' })
   @Post(':tableOrderId')
   async addMenuItemToTableOrder(@Param() getTableOrderParams: GetTableOrderParams,
-                                @Query() addOrderItemQueryParams: AddOrderItemQueryParams,
+                                @Query() addOrderItemQueryParams: TablePartitionQueryParams,
                                 @Body() addMenuItemDto: AddMenuItemDto): Promise<TableOrder> {
     return this.tableOrdersService.addOrderingLineToTableOrder(
       getTableOrderParams.tableOrderId,
@@ -87,12 +87,17 @@ export class TableOrdersController {
   }
 
   @ApiParam({ name: 'tableOrderId' })
+  @ApiQuery({ name: 'tablePartitionNumber' })
   @ApiOkResponse({ type: TableOrder, description: 'The table has been successfully billed.' })
   @ApiNotFoundResponse({ type: TableOrderIdNotFoundException, description: 'Table order not found' })
   @ApiUnprocessableEntityResponse({ type: TableOrderAlreadyBilledException, description: 'TableOrder is already billed' })
   @HttpCode(200)
   @Post(':tableOrderId/bill')
-  async billTableOrder(@Param() getTableOrderParams: GetTableOrderParams): Promise<TableOrder> {
-    return this.tableOrdersService.billOrder(getTableOrderParams.tableOrderId);
+  async billTableOrder(@Param() getTableOrderParams: GetTableOrderParams,
+                       @Query() tablePartitionQueryParams: TablePartitionQueryParams): Promise<TableOrder> {
+    return this.tableOrdersService.billOrder(
+      getTableOrderParams.tableOrderId,
+      tablePartitionQueryParams.tablePartitionNumber
+    );
   }
 }

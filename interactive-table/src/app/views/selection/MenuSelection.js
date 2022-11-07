@@ -14,7 +14,7 @@ const filterMenuByCategory = (menu, category) => menu.filter((item) => item.cate
 
 export default function MenuSelection() {
 	const dispatch = useDispatch();
-	const theme = useContext(ThemeContext);
+	const {theme} = useContext(ThemeContext);
 
 	useEffect(() => {
 		dispatch(getMenu({}));

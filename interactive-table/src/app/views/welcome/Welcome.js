@@ -7,7 +7,7 @@ import { ThemeContext } from '../../context/theme-context';
 
 export default function Welcome() {
 	const navigate = useNavigate();
-	const theme = useContext(ThemeContext);
+	const {theme} = useContext(ThemeContext);
 
 	function start() {
 		navigate('/menu');

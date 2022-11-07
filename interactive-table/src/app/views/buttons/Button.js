@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../context/theme-context';
 
 export default function Button({ id, onClick, children }) {
-	const theme = useContext(ThemeContext)
+	const {theme} = useContext(ThemeContext);
 
 	return (
 		<div id={id} className='button'

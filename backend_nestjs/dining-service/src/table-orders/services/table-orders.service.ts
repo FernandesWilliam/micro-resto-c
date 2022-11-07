@@ -256,11 +256,19 @@ export class TableOrdersService {
     return managedLines.preparations;
   }
 
-  async billOrder(tableOrderId: string): Promise<TableOrder> {
+  async billOrder(tableOrderId: string, tablePartitionNumber?: number): Promise<TableOrder> {
     const tableOrder: TableOrder = await this.findOne(tableOrderId);
 
     if (tableOrder.billed !== null) {
       throw new TableOrderAlreadyBilledException(tableOrder);
+    }
+
+    const now = new Date();
+
+    if (tablePartitionNumber) {
+
+    } else {
+      tableOrder.billed = now;
     }
 
     tableOrder.billed = new Date();

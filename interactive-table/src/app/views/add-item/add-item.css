@@ -7,6 +7,7 @@
 .remove-add {
     display: flex;
     justify-content: space-evenly;
+    flex: 1;
 }
 
 .add-card {
@@ -16,11 +17,6 @@
 i {
     padding-right: 1rem;
     padding-left: 1rem;
-}
-
-.price {
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
 }
 
 #add-to-cart-button {
@@ -92,4 +88,22 @@ i {
     cursor: pointer;
     border: none;
     background: transparent;
+}
+
+b ~ b {
+    margin-left: 10px;
+}
+
+b:first-child {
+    margin-right: 10px;
+}
+
+#quantity-display {
+    line-height: 2;
+}
+
+#price-display {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    line-height: 2;
 }

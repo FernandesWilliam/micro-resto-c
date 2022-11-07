@@ -10,18 +10,24 @@ export const themes = {
         button_color: "#ffffff",
         modal_overlay: "#0000007f",
         text_color: '#000',
-        card_background: '#ddfff7'
+        card_background: '#ddfff7',
+        icon: 'dark_mode'
     },
     dark: {
-        background: "#222222",
-        title_left_color: "",
-        title_right_color: "",
-        button_background: "",
-        button_shadow: "",
-        button_color: "",
-        modal_overlay: "",
-        text_color: ''
+        background: "#2b2a33ff",
+        title_left_color: "#074f75",
+        title_right_color: "#760322",
+        button_background: "#42414dff",
+        button_shadow: "#42414d7f",
+        button_color: "#fff",
+        modal_overlay: "#0000007f",
+        text_color: '#fbfbfeff',
+        card_background: '#42414dff',
+        icon: 'light_mode'
     }
 }
 
-export const ThemeContext = React.createContext(themes.light);
+export const ThemeContext = React.createContext({
+    theme: themes.light,
+    toggleTheme: () => {}
+});

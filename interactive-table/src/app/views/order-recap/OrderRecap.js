@@ -13,7 +13,7 @@ import BackButton from '../buttons/BackButton';
 export default function OrderRecap() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
-	const theme = useContext(ThemeContext);
+	const {theme} = useContext(ThemeContext);
 
 	const getItemDetails = (orderItems) => {
 		return orderItems.map(item => {
