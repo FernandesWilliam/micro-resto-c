@@ -40,12 +40,14 @@ i {
 }
 
 #category-selection {
+    --box-shadow-color: #ccc;
+
     display: flex;
     text-align: center;
     justify-content: space-evenly;
     gap: 10px;
     height: 5vh;
-    box-shadow: 0 8px 5px #ccc;
+    box-shadow: 0 8px 5px var(--box-shadow-color);
     line-height: 4vh;
 }
 

@@ -11,6 +11,7 @@ export const themes = {
         modal_overlay: "#0000007f",
         text_color: '#000',
         card_background: '#ddfff7',
+        recap_card_background: '#9edfe4cc',
         icon: 'dark_mode'
     },
     dark: {
@@ -23,6 +24,7 @@ export const themes = {
         modal_overlay: "#0000007f",
         text_color: '#fbfbfeff',
         card_background: '#42414dff',
+        recap_card_background: '#42414dff',
         icon: 'light_mode'
     }
 }

@@ -1,0 +1,19 @@
+#back-to-ordering-button {
+    position: absolute;
+    left: 5%;
+    bottom: 5%;
+
+    font-size: medium;
+    max-height: 10%;
+    width: 10%;
+}
+
+#bill-btn {
+    position: absolute;
+    right: 5%;
+    bottom: 5%;
+
+    font-size: medium;
+    max-height: 10%;
+    width: 10%;
+}

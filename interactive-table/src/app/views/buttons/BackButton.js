@@ -11,7 +11,9 @@ export default function BackButton({ onClick }) {
 
 	return (
 		<div id='back-button' onClick={action} className='button' style={{ background: 'none' }}>
-			<img src='/back.png' alt='Back' width='36px' height='36px'/>
+			<span className="material-symbols-rounded" style={{ width: '36px', height: '36px' }}>
+				arrow_back
+			</span>
 		</div>
 	)
 }

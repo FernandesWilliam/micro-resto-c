@@ -11,12 +11,20 @@ export async function getMenu() {
 }
 
 async function startOrder(tableNumber, partitionNumber) {
-	const order = await (await axios.post(`http://${DINING}/tableOrders`, {
-		tableNumber: parseInt(tableNumber),
-		customersCount: 1,
-		kioskOrder: false,
-		tablePartitionNumber: parseInt(partitionNumber)
-	})).data;
+	let order;
+	try {
+		order = await (await axios.post(`http://${DINING}/tableOrders`, {
+			tableNumber: parseInt(tableNumber),
+			customersCount: 1,
+			kioskOrder: false,
+			tablePartitionNumber: parseInt(partitionNumber)
+		})).data;
+	} catch (ignored) {
+		const res = await (await axios.get(`http://${DINING}/tables/${tableNumber}`)).data;
+		order = {
+			_id: res.tableOrderId
+		}
+	}
 	return {
 		_id: order['_id']
 	}
@@ -39,6 +47,16 @@ export async function sendItemsToPreparation(tableNumber, partitionNumber, order
 	}
 	await (await axios.post(`http://${DINING}/tableOrders/${_id}/prepare`)).data;
 	return { _id }
+}
+
+export async function billOrder(orderId, partitionNumber) {
+	let query = '';
+	if (partitionNumber)
+		query = `?tablePartitionNumber=${partitionNumber}`;
+
+	const res = await (await axios.post(`http://${DINING}/tableOrders/${orderId}/bill${query}`)).data;
+
+	return { billed: res.billed };
 }
 
 export async function getPreparations(tableNumber) {

@@ -256,22 +256,40 @@ export class TableOrdersService {
     return managedLines.preparations;
   }
 
+  private billInteractiveTablePartitionOrder(tableOrder, tablePartitionNumber, billedDate): TableOrder {
+    const subOrder = tableOrder.sub_orders.find((sub) => sub.tablePartitionNumber === parseInt('' + tablePartitionNumber));
+    if (subOrder) {
+      if (subOrder.billed !== null) {
+        throw new TableOrderAlreadyBilledException(tableOrder);
+      }
+      subOrder.billed = billedDate;
+    }
+
+    if (!tableOrder.sub_orders.find((sub) => !sub.billed))
+      tableOrder.billed = billedDate;
+
+    return tableOrder;
+  }
+
   async billOrder(tableOrderId: string, tablePartitionNumber?: number): Promise<TableOrder> {
-    const tableOrder: TableOrder = await this.findOne(tableOrderId);
+    let tableOrder: TableOrder = await this.findOne(tableOrderId);
 
     if (tableOrder.billed !== null) {
       throw new TableOrderAlreadyBilledException(tableOrder);
     }
 
-    const now = new Date();
-
     if (tablePartitionNumber) {
-
+      tableOrder = this.billInteractiveTablePartitionOrder(tableOrder, tablePartitionNumber, new Date());
     } else {
-      tableOrder.billed = now;
-    }
+      tableOrder.billed = new Date();
 
-    tableOrder.billed = new Date();
+      if (!tableOrder.kioskOrder) {
+        tableOrder.sub_orders.forEach((sub) => {
+          if (!sub.billed) // If the billed is not paid already
+            sub.billed = tableOrder.billed
+        });
+      }
+    }
 
     // TODO: Send payment for the table order
 

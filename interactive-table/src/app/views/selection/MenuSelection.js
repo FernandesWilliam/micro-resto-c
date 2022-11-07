@@ -48,7 +48,7 @@ export default function MenuSelection() {
 	return (
 		<div className="main" style={{ background: theme.background }}>
 			<Title />
-			<div id='category-selection'>
+			<div id='category-selection' style={{ '--box-shadow-color': theme.button_shadow }}>
 				{
 					categories.map((categoryName, index) =>
 						<div key={index}

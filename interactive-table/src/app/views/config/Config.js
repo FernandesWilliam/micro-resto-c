@@ -56,13 +56,10 @@ export default function Config() {
 					   onChange={(e) => setTablePartitionNumber(parseInt(e.target.value))}/>
 			</Row>
 
-			<link rel="stylesheet"
-				  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0"/>
 			<Button id='toggle-theme-btn' onClick={toggleTheme}>
                 <span className="material-symbols-rounded">
 					{theme.icon}
 				</span>
-				{/*<img src={theme.icon} alt='Switch mode' width='48px' height='48px'/>*/}
 			</Button>
 
 			<footer>

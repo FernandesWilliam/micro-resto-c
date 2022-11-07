@@ -42,7 +42,7 @@ export default function AddItemModal ({isShown, hide, itemId}) {
 		ReactDOM.createPortal((
 			<div className='modal-overlay' style={{ background: theme.modal_overlay }}>
 				<div className='modal-wrapper'>
-					<div className='modal' style={{ background: theme.background }}>
+					<div className='modal' style={{ background: theme.background, color: theme.text_color }}>
 						<div className='modal-header'>
 							<h4>{item.fullName}</h4>
 							<div className='button' onClick={quit} style={{

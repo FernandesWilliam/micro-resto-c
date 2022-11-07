@@ -65,7 +65,7 @@ export default function OrderRecap() {
 					)
 				}
 			</div>
-			<div className="footer-recap" style={{ background: theme.background }}>
+			<div className="footer-recap" style={{ background: theme.background, '--boder-color': theme.button_shadow }}>
 				<p>Total price: {items.reduce((sum, item) => sum + (item.howMany * item.price), 0)} €</p>
 				<Button id='recap-complete-btn' onClick={submitOrder}>Validate</Button>
 			</div>

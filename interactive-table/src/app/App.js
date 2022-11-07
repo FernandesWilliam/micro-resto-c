@@ -10,10 +10,11 @@ import OrderRecap from './views/order-recap/OrderRecap';
 import Game from './views/game/Game';
 import OrderStatusGeneralDisplay from './views/order-status/OrderStatusGeneralDisplay';
 import { useState } from 'react';
+import BillComplete from './views/bill/BillComplete';
 
 
 function App() {
-	const [theme, setTheme] = useState(themes.light);
+	const [theme, setTheme] = useState(themes.dark);
 
 	const toggleTheme = () => {
 		setTheme(theme === themes.light ? themes.dark : themes.light);
@@ -34,6 +35,10 @@ function App() {
 					<meta charSet="utf-8"/>
 					<title>MiamMiam</title>
 				</Helmet>
+
+				<link rel="stylesheet"
+					  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,1,0"/>
+
 				<BrowserRouter>
 					<Routes>
 						<Route exact path="/" element={<Config/>}/>
@@ -42,6 +47,7 @@ function App() {
 						<Route exact path="/recap" element={<OrderRecap/>}/>
 						<Route exact path="/game" element={<Game/>}/>
 						<Route exact path="/status" element={<OrderStatusGeneralDisplay/>}/>
+						<Route exact path="/bill" element={<BillComplete />} />
 						<Route path="*" element={<NotFound/>}/>
 					</Routes>
 				</BrowserRouter>

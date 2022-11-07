@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { getMenu, getPreparations, sendItemsToPreparation } from './behaviour.js';
+import { billOrder, getMenu, getPreparations, sendItemsToPreparation } from './behaviour.js';
 
 const PORT = parseInt(process.env.PORT) || 3000;
 
@@ -18,6 +18,20 @@ app.post('/order/:tableNumber/prepareOrder/:partitionNumber', async (req, res) =
         req.params.tableNumber,
         req.params.partitionNumber,
         req.body
+    ))
+);
+
+app.post('/order/:orderId/bill', async (req, res) =>
+    res.send(await billOrder(
+        req.params.orderId,
+        undefined
+    ))
+);
+
+app.post('/order/:orderId/bill/:tablePartitionNumber', async (req, res) =>
+    res.send(await billOrder(
+        req.params.orderId,
+        req.params.tablePartitionNumber
     ))
 );
 

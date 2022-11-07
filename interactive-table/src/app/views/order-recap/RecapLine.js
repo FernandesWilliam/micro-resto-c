@@ -1,6 +1,11 @@
+import { useContext } from 'react';
+import { ThemeContext } from '../../context/theme-context';
+
 export default function RecapLine({item, addItem, removeItem}) {
+	const {theme} = useContext(ThemeContext);
+
 	return (
-		<div className='recap-row'>
+		<div className='recap-row' style={{ background: theme.recap_card_background }}>
 			<div className='row-info'>
 				<img src={item.image} alt={item.shortName} />
 				<p>{item.fullName}</p>

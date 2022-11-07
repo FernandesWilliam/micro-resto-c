@@ -64,6 +64,18 @@ export const configureTableInfo = createAsyncThunk(
 			tablePartitionNumber: tablePartitionNumber
 		}
 	}
+);
+
+export const billOrder = createAsyncThunk(
+	'bill',
+	async ({tablePartitionNumber}, thunkBundle) => {
+		let state = thunkBundle.getState().order;
+
+		if (tablePartitionNumber)
+			return await (await fetch(`http://${BFF}/order/${state.orderId}/bill/${tablePartitionNumber}`)).json();
+
+		return await (await fetch(`http://${BFF}/order/${state.orderId}/bill`)).json();
+	}
 )
 
 const orderSlice = createSlice({
@@ -72,12 +84,14 @@ const orderSlice = createSlice({
 		orderId: null,
 		tableNumber: null,
 		partitionNumber: null,
-		orderItems: []
+		orderItems: [],
+		billed: null,
 	},
 	reducers: {
 		forgetOrder(state) {
 			state.orderId = null;
 			state.orderItems = [];
+			state.billed = null;
 		}
 	},
 	extraReducers: (builder) => {
@@ -94,6 +108,9 @@ const orderSlice = createSlice({
 			.addCase(configureTableInfo.fulfilled, (state, action) => {
 				state.tableNumber = action.payload.tableNumber;
 				state.partitionNumber = action.payload.tablePartitionNumber;
+			})
+			.addCase(billOrder.fulfilled, (state, action) => {
+				state.billed = action.payload.billed;
 			})
 	}
 });

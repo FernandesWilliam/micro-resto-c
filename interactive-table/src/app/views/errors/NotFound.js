@@ -10,9 +10,9 @@ export default function NotFound() {
 		<div>
 			<Title />
 			<div><code>{location.pathname}</code> not found</div>
-			<div id="footer">
+			<footer>
 				<Button id="home-button" onClick={() => navigate('/')}>Return Home</Button>
-			</div>
+			</footer>
 			<style>{`
 				#home-button {
 					width: 60%;
@@ -20,11 +20,11 @@ export default function NotFound() {
 	
 					display: table;
 				}
-				#footer {
-					width: vw;
-					text-align: center;
+				footer {
+					width: 100%;
 					position: absolute;
-					bottom: 5vh;
+					bottom: 5%;
+					justify-content: space-evenly;
 				}
 			`}</style>
 		</div>
