@@ -256,8 +256,10 @@ export class TableOrdersService {
     return managedLines.preparations;
   }
 
-  private billInteractiveTablePartitionOrder(tableOrder, tablePartitionNumber, billedDate): TableOrder {
-    const subOrder = tableOrder.sub_orders.find((sub) => sub.tablePartitionNumber === parseInt('' + tablePartitionNumber));
+  private billInteractiveTablePartitionOrder(tableOrder: TableOrder,
+                                             tablePartitionNumber: number,
+                                             billedDate: Date): TableOrder {
+    const subOrder = tableOrder.sub_orders.find((sub) => sub.tablePartitionNumber === tablePartitionNumber);
     if (subOrder) {
       if (subOrder.billed !== null) {
         throw new TableOrderAlreadyBilledException(tableOrder);
@@ -279,7 +281,8 @@ export class TableOrdersService {
     }
 
     if (tablePartitionNumber) {
-      tableOrder = this.billInteractiveTablePartitionOrder(tableOrder, tablePartitionNumber, new Date());
+      tableOrder = this.billInteractiveTablePartitionOrder(tableOrder,
+        parseInt('' + tablePartitionNumber), new Date());
     } else {
       tableOrder.billed = new Date();
 

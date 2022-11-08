@@ -71,10 +71,17 @@ export const billOrder = createAsyncThunk(
 	async ({tablePartitionNumber}, thunkBundle) => {
 		let state = thunkBundle.getState().order;
 
-		if (tablePartitionNumber)
-			return await (await fetch(`http://${BFF}/order/${state.orderId}/bill/${tablePartitionNumber}`)).json();
+		if (tablePartitionNumber) {
+			return await (await fetch(
+				`http://${BFF}/order/${state.orderId}/bill/${tablePartitionNumber}`,
+				{ method: 'POST' }
+			)).json();
+		}
 
-		return await (await fetch(`http://${BFF}/order/${state.orderId}/bill`)).json();
+		return await (await fetch(
+			`http://${BFF}/order/${state.orderId}/bill`,
+			{ method: 'POST' }
+		)).json();
 	}
 )
 
@@ -103,7 +110,7 @@ const orderSlice = createSlice({
 				state.orderItems = action.payload;
 			})
 			.addCase(sendOrderForPreparation.fulfilled, (state, action) => {
-				state.orderId = action.payload;
+				state.orderId = action.payload._id;
 			})
 			.addCase(configureTableInfo.fulfilled, (state, action) => {
 				state.tableNumber = action.payload.tableNumber;

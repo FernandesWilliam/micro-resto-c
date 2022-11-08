@@ -98,6 +98,10 @@ b:first-child {
     margin-right: 10px;
 }
 
+.remove-add > b {
+    line-height: 2;
+}
+
 #quantity-display {
     line-height: 2;
 }
