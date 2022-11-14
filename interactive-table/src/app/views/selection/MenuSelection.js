@@ -12,6 +12,9 @@ import { selectOrderItems } from '../../store/order-store';
 
 const filterMenuByCategory = (menu, category) => menu.filter((item) => item.category === category);
 
+/**
+ * Page to select our menu
+ */
 export default function MenuSelection() {
 	const dispatch = useDispatch();
 	const {theme} = useContext(ThemeContext);

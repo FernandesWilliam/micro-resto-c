@@ -2,6 +2,9 @@ import Title from '../title/Title';
 import { useLocation, useNavigate } from 'react-router-dom';
 import Button from '../buttons/Button';
 
+/**
+ * Error display (page not found)
+ */
 export default function NotFound() {
 	const location = useLocation();
 	const navigate = useNavigate();

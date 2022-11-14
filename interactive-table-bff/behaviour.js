@@ -59,6 +59,12 @@ export async function billOrder(orderId, partitionNumber) {
 	return { billed: res.billed };
 }
 
+export async function getOrderId(tableNumber) {
+	return {
+		orderId: (await (await axios.get(`http://${DINING}/tables/${tableNumber}`)).data)["tableOrderId"]
+	}
+}
+
 export async function getPreparations(tableNumber) {
 	if (tableNumber === 'null') return [];
 

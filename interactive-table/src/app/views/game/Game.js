@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { billOrder, selectTablePartitionNumber } from '../../store/order-store';
 
+/**
+ * Display a game interface to wait until the order is ready and served
+ */
 export default function Game() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
@@ -19,7 +22,7 @@ export default function Game() {
 	}
 
 	return (
-		<div className="main">
+		<div className="main" style={{ backgroundImage: 'url("/game_background.gif")', position: 'absolute' }}>
 			<Title />
 			<h2>It's Game time !</h2>
 

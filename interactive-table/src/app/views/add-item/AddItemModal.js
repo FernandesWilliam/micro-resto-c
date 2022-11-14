@@ -7,6 +7,13 @@ import { addItemToOrder } from '../../store/order-store';
 import Button from '../buttons/Button';
 import { ThemeContext } from '../../context/theme-context';
 
+/**
+ * Pop-up to add item to an order
+ *
+ * @param isShown is the modal displayed ?
+ * @param hide Hide the modal on close button click
+ * @param itemId id of the item to add to the order
+ */
 export default function AddItemModal ({isShown, hide, itemId}) {
 	const menu = useSelector(selectMenu);
 	const dispatch = useDispatch();

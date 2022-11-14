@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { forgetOrder } from '../../store/order-store';
 
+/**
+ * Display to inform that bill has been paid
+ */
 export default function BillComplete () {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();

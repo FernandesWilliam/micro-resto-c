@@ -10,6 +10,9 @@ import { useContext } from 'react';
 import { ThemeContext } from '../../context/theme-context';
 import BackButton from '../buttons/BackButton';
 
+/**
+ * Page of recap for the order
+ */
 export default function OrderRecap() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();

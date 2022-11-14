@@ -5,6 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/theme-context';
 
+/**
+ * Welcome customer page
+ */
 export default function Welcome() {
 	const navigate = useNavigate();
 	const {theme} = useContext(ThemeContext);

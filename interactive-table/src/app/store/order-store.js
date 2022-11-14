@@ -44,7 +44,6 @@ export const removeItemFromOrder = createAsyncThunk(
 export const sendOrderForPreparation = createAsyncThunk(
 	'prepare',
 	async ({}, thunkBundle) => {
-		console.log('[State]: ', thunkBundle.getState());
 		const state = thunkBundle.getState().order;
 
 		return await (await fetch(`http://${BFF}/order/${state.tableNumber}/prepareOrder/${state.partitionNumber}`,
@@ -66,6 +65,10 @@ export const configureTableInfo = createAsyncThunk(
 	}
 );
 
+const getOrderId = async (state) => {
+	return (await (await fetch(`http://${BFF}/order/${state.tableNumber}`)).json()).orderId;
+}
+
 export const billOrder = createAsyncThunk(
 	'bill',
 	async ({tablePartitionNumber}, thunkBundle) => {
@@ -78,12 +81,14 @@ export const billOrder = createAsyncThunk(
 			)).json();
 		}
 
+		let orderId = await getOrderId(state);
+
 		return await (await fetch(
-			`http://${BFF}/order/${state.orderId}/bill`,
+			`http://${BFF}/order/${orderId}/bill`,
 			{ method: 'POST' }
 		)).json();
 	}
-)
+);
 
 const orderSlice = createSlice({
 	name: 'order',
@@ -126,7 +131,6 @@ export const {forgetOrder} = orderSlice.actions;
 
 export default orderSlice.reducer;
 
-export const selectOrderId = (state) => state.order.orderId;
 export const selectOrderItems = (state) => state.order.orderItems;
 export const selectTableNumber = (state) => state.order.tableNumber;
 export const selectTablePartitionNumber = (state) => state.order.partitionNumber;

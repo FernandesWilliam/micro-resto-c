@@ -3,6 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectMenu } from '../../store/catalog-store';
 
+/**
+ * Card to print a recap of the order (used on the selection page)
+ *
+ * @param items The items of the order
+ * @param style Some style to apply to the card
+ */
 export default function OrderRecapCard ({items, style}) {
 	const navigate = useNavigate();
 

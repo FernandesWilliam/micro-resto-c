@@ -1,5 +1,8 @@
 import React from 'react';
 
+/**
+ * Possible themes for the application
+ */
 export const themes = {
     light: {
         background: "#ffffff",

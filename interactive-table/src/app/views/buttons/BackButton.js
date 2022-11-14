@@ -1,5 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Custom back button usable anywhere in the app
+ *
+ * @param onClick function to add custom behaviour on button click. In any-case, the button goes back to previous screen
+ */
 export default function BackButton({ onClick }) {
 	const navigate = useNavigate();
 

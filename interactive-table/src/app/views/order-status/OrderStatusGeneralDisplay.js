@@ -3,9 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getMenu, selectMenu } from '../../store/catalog-store';
 import { useEffect } from 'react';
 import { getOrderStatus, selectOrderStatus } from '../../store/preparation-store';
-import { selectTableNumber } from '../../store/order-store';
+import { billOrder, selectTableNumber } from '../../store/order-store';
 import { useNavigate } from 'react-router-dom';
+import Button from '../buttons/Button';
 
+/**
+ * Display for the table (general pad)
+ */
 export default function OrderStatusGeneralDisplay() {
 	const navigate = useNavigate();
 	const tableNumber = useSelector(selectTableNumber);
@@ -38,6 +42,10 @@ export default function OrderStatusGeneralDisplay() {
 
 	const dishes = getItemDetails(orderStatus);
 
+	const generalBill =  () => {
+		dispatch(billOrder({tablePartitionNumber: null}));
+	}
+
 	return (
 		<div className='main'>
 			<Title />
@@ -48,6 +56,9 @@ export default function OrderStatusGeneralDisplay() {
 					)
 				}
 			</div>
+			<footer>
+				<Button id='general-bill-button' onClick={generalBill}>Bill</Button>
+			</footer>
 		</div>
 	)
 }

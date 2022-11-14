@@ -8,6 +8,9 @@ import { configureTableInfo } from '../../store/order-store';
 import Row from './Row';
 import { ThemeContext } from '../../context/theme-context';
 
+/**
+ * Initial screen to config a pad. Used by the waiter to set table pad for customer or for the table.
+ */
 export default function Config() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();

@@ -1,6 +1,9 @@
 import { useContext } from 'react';
 import { ThemeContext } from '../../context/theme-context';
 
+/**
+ * A recap line about on item of the order
+ */
 export default function RecapLine({item, addItem, removeItem}) {
 	const {theme} = useContext(ThemeContext);
 
