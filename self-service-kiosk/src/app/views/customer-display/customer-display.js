@@ -3,20 +3,17 @@ import {useDispatch, useSelector} from "react-redux";
 import './customer-display.css';
 import {Title} from "../title/title";
 import {OrderList} from "../order-list/order-list";
-import { getPreparationsStarted, getPreparationsReady } from "../../store/preparation-store";
+import { getPreparations } from "../../store/preparation-store";
 
 export function CustomerDisplay() {
     const dispatch = useDispatch();
 
     const ordersStarted = useSelector((state) => state.preparations.started);
-    useEffect(() => {
-        dispatch(getPreparationsStarted());
-    }, [ dispatch, ordersStarted ]);
-
     const ordersReady = useSelector((state) => state.preparations.ready);
+
     useEffect(() => {
-        dispatch(getPreparationsReady());
-    }, [ dispatch, ordersReady ]);
+        dispatch(getPreparations());
+    }, [ dispatch, ordersStarted, ordersReady ]);
 
     return (
         <div id="customer-display">

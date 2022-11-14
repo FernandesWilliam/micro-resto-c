@@ -89,11 +89,23 @@ let preparations = new Map();
 const preparationConfig = {
     'preparationStarted': {
         state: false,
-        filter: (array) => array.filter((val) => !val).length > 0
+        filter: (array) => array.filter((val) => !val).length > 0,
+        log: (effective) => { }
     },
     'readyToBeServed': {
         state: true,
-        filter: (array) => array.filter((val) => !val).length <= 0
+        filter: (array) => array.filter((val) => !val).length <= 0,
+        log: (effective) => console.log(`Effective order: `, effective)
+    }
+}
+
+export async function getPreparations() {
+    let started = await fetchPreparations('preparationStarted');
+    let ready = await fetchPreparations('readyToBeServed');
+
+    return {
+        started: started,
+        ready: ready
     }
 }
 
@@ -112,6 +124,8 @@ export async function fetchPreparations(state) {
         preparations.set(preparation.tableNumber, table);
         effective.add(preparation.tableNumber);
     });
+
+    //console.log(`Effective ${state}: `, effective);
 
     let ret = [];
 

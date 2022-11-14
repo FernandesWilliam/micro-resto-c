@@ -6,7 +6,9 @@ export const preparationConfig = {
         //  This will be use to store the preparation
         preparations: new Map(),
         fetchPreparationsStarted: async () => {
-            let res = await (await fetch(`http://${KITCHEN_HOST}/preparations?state=preparationStarted`)).json();
+            let pathPreparationStarted = `http://${KITCHEN_HOST}/preparations?state=preparationStarted`
+            let res = await (await fetch(pathPreparationStarted)).json();
+            console.log("Fetch started preparations : \n"+pathPreparationStarted+ " : " + JSON.stringify(res,null, "\t"))
 
             res.forEach((preparation) => {
                 let table;
@@ -31,7 +33,9 @@ export const preparationConfig = {
             return started;
         },
         fetchPreparationsReady: async () => {
-            let res = await (await fetch(`http://${KITCHEN_HOST}/preparations?state=readyToBeServed`)).json();
+            let pathPreparationReady = `http://${KITCHEN_HOST}/preparations?state=readyToBeServed`
+            let res = await (await fetch(pathPreparationReady)).json();
+            console.log("Fetch ready preparations : \n"+pathPreparationReady+ " : " + JSON.stringify(res),null, "\t")
 
             let effective = new Set();
 
@@ -51,15 +55,27 @@ export const preparationConfig = {
             });
 
             return prepared;
+        },
+        fetchPreparations: async () => { 
+            let started = await preparationConfig['fm'].fetchPreparationsStarted();
+            let ready = await preparationConfig['fm'].fetchPreparationsReady();
+
+            return {
+                started: started,
+                ready: ready
+            }
         }
     },
     'bff': {
         // Bff part is mock as the BFF is not yet implemented
         fetchPreparationsStarted: async () => {
-            return await (await fetch(`http://${BFF_HOST}/preparations?state=preparationStarted`)).json()
+            
         },
         fetchPreparationsReady: async () => {
-            return await (await fetch(`http://${BFF_HOST}/preparations?state=readyToBeServed`)).json()
+            
+        },
+        fetchPreparations: async () => {
+            return await (await fetch(`http://${BFF_HOST}/preparations`)).json();
         }
     }
 }

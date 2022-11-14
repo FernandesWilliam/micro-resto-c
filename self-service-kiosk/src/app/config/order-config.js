@@ -66,7 +66,10 @@ const config = {
 
         },
         sendOrderToPreparation: async ({orderId}, thunkBundle) => {
-            return await (await axios.post(`http://${BFF_HOST}/prepareOrder`, thunkBundle.getState().order.orderItems)).data;
+            let path = `http://${BFF_HOST}/prepareOrder`;
+            let prepareData = await (await axios.post(path, thunkBundle.getState().order.orderItems)).data;
+            console.log("Send order to preparation : \n"+ path + " \nReturned : "+ JSON.stringify(prepareData, null, "\t"));
+            return prepareData;
         }
     },
     'fm': {
@@ -78,20 +81,27 @@ const config = {
         startOrder: async () => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
             // fetch all tables
-            let tables = await extractBody(`http://${DINING_URL}/tables`);
+            let pathTables = `http://${DINING_URL}/tables`;
+            let tables = await extractBody(pathTables);
+            console.log("Fetch tables : \n"+pathTables + " \nReturned : " + JSON.stringify(tables,null, "\t"))
+
             // filter by availability
             let table = tables.filter((table) => !table['taken'])?.[0];
             if (table === undefined) {
                 let maxTableCount = Math.max(...tables.map((table => table.number)));
                 let option = postOption(JSON.stringify({number: maxTableCount + 1}));
-                table = await extractBody(`http://${DINING_URL}/tables`, option);
+                console.log("Not enough tables, add new tables : \n"+pathTables)
+                table = await extractBody(pathTables, option);
             }
             let option = postOption(JSON.stringify({
                 "tableNumber": table['number'],
                 "customersCount": 1
             }));
             // create an order
-            let order = await extractBody(`http://${DINING_URL}/tableOrders`, option);
+            let diningPath = `http://${DINING_URL}/tableOrders`;
+            let order = await extractBody(diningPath, option);
+            console.log("Create an order \n"+JSON.stringify(option,null, "\t")+ " : \n"+diningPath+ "\nReturned : "+ JSON.stringify(order,null, "\t"));
+
             // return the order id
             return order;
         },
@@ -108,16 +118,22 @@ const config = {
                     "howMany": howMany
                 }
             ));
-            let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}`, option);
+            let diningPath = `http://${DINING_URL}/tableOrders/${orderID}`;
+            let order = await extractBody(diningPath, option);
+            console.log("Add item "+JSON.stringify(option,null, "\t")+ " to order : \n"+diningPath+ "\nReturned : "+ JSON.stringify(order,null, "\t"));
+
             return order['lines'];
         },
         sendOrderToPreparation: async ({orderId}) => {
             let DINING_URL = process.env.REACT_APP_DINING_URL;
-            console.log(orderId)
-            return await (await fetch(`http://${DINING_URL}/tableOrders/${orderId}/prepare`, {
+            let preparePath = `http://${DINING_URL}/tableOrders/${orderId}/prepare`;
+            let preparationJson = await (await fetch(preparePath, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'}
             })).json();
+            console.log("Send order "+orderId+" to preparation : \n"+preparePath+ "\nReturned :  "+ JSON.stringify(preparationJson,null, "\t"));
+
+            return preparationJson
         },
 
         removeItemToOrder: async ({orderID, menuItem}) => {
@@ -126,7 +142,10 @@ const config = {
                 {
                     method: "DELETE"
                 };
-            let order = await extractBody(`http://${DINING_URL}/tableOrders/${orderID}/${menuItem}`, option);
+
+            let diningPath = `http://${DINING_URL}/tableOrders/${orderID}/${menuItem}`;
+            let order = await extractBody(diningPath, option);
+            console.log("Remove item "+menuItem+ " to order : \n"+diningPath+ "\nReturned : "+ JSON.stringify(order['lines'],null, "\t"));
             return order['lines'];
         },
     }
