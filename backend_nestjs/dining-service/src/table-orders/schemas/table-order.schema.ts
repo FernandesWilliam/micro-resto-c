@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
 
 import { OrderingLine } from './ordering-line.schema';
+import { TableSubOrder } from './table-sub-order.schema';
 
 export type TableOrderDocument = TableOrder & Document;
 
@@ -32,6 +33,14 @@ export class TableOrder {
   @ApiProperty()
   @Prop({ default: null })
   billed: Date;
+
+  @ApiProperty()
+  @Prop({ default: [] })
+  sub_orders: TableSubOrder[];
+
+  @ApiProperty()
+  @Prop({ default: false })
+  kioskOrder: boolean;
 }
 
 export const TableOrderSchema = SchemaFactory.createForClass(TableOrder);

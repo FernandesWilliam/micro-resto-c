@@ -1,0 +1,12 @@
+#home-btn {
+    width: 40%;
+    font-size: 20px;
+}
+
+footer {
+    display: flex;
+    justify-content: space-evenly;
+    position: absolute;
+    width: 100%;
+    bottom: 5%;
+}
