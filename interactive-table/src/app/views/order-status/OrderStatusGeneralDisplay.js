@@ -1,3 +1,4 @@
+import './order-status.css';
 import Title from '../title/Title';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMenu, selectMenu } from '../../store/catalog-store';
@@ -49,13 +50,24 @@ export default function OrderStatusGeneralDisplay() {
 	return (
 		<div className='main'>
 			<Title />
-			<div id="status-of-dishes">
-				{
-					dishes.map((dish, index) =>
-						<div key={index}>{dish.fullName} {dish.startedAt === null ? 'sent' : dish.finishedAt === null ? 'started' : 'finished'}</div>
-					)
-				}
+			<div id="state-display">
+				<div className={'column-recap'}>
+					<div className={'states'}>Sent</div>
+					{dishes.filter((d) => d.startedAt === null).map((dish, index) =>
+					<div key={index}>{dish.shortName}</div>)}
+				</div>
+				<div className={'column-recap'}>
+					<div className={'states'}>Started</div>
+					{dishes.filter((d) => d.startedAt !== null && d.finishedAt === null).map((dish, index) =>
+						<div key={index}>{dish.shortName}</div>)}
+				</div>
+				<div className={'column-recap'}>
+					<div className={'states'}>Finished</div>
+					{dishes.filter((d) => d.startedAt !== null && d.finishedAt !== null).map((dish, index) =>
+						<div key={index}>{dish.shortName}</div>)}
+				</div>
 			</div>
+
 			<footer>
 				<Button id='general-bill-button' onClick={generalBill}>Bill</Button>
 			</footer>
