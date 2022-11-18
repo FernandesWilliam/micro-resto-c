@@ -20,7 +20,7 @@ To be able to run the UIs and the BFFs, you will need to install the node depend
 [`interactive-table`](./interactive-table/), [`interactive-table-bff`](./interactive-table-bff/), [`self-service-kiosk`](./self-service-kiosk/) and [`bff`](./bff/)
 
 ### Run the images
-The UIs uses Webpack to compile, so it may take a while to start. Use `-d` option to run docker in detach mode.
+The UIs have not yet been optimised for production use. Compilation and start-up may therefore take awhile. Use `-d` option to run docker in detach mode.
 ```zsh
 > ./start.sh
 ```
