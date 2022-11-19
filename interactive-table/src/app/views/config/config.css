@@ -40,3 +40,11 @@ footer {
     z-index: 2;
     line-height: 3.5;
 }
+
+label {
+    padding-top: 8%;
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+
