@@ -47,6 +47,10 @@ export default function OrderStatusGeneralDisplay() {
 		dispatch(billOrder({tablePartitionNumber: null}));
 	}
 
+	function capitalizeFirstLetter(string) {
+		return string.charAt(0).toUpperCase() + string.slice(1);
+	}
+
 	return (
 		<div className='main'>
 			<Title />
@@ -54,17 +58,17 @@ export default function OrderStatusGeneralDisplay() {
 				<div className={'column-recap'}>
 					<div className={'states'}>Sent</div>
 					{dishes.filter((d) => d.startedAt === null).map((dish, index) =>
-					<div key={index}>{dish.shortName}</div>)}
+					<div key={index}>{capitalizeFirstLetter(dish.shortName)}</div>)}
 				</div>
 				<div className={'column-recap'}>
 					<div className={'states'}>Started</div>
 					{dishes.filter((d) => d.startedAt !== null && d.finishedAt === null).map((dish, index) =>
-						<div key={index}>{dish.shortName}</div>)}
+						<div key={index}>{capitalizeFirstLetter(dish.shortName)}</div>)}
 				</div>
 				<div className={'column-recap'}>
 					<div className={'states'}>Finished</div>
 					{dishes.filter((d) => d.startedAt !== null && d.finishedAt !== null).map((dish, index) =>
-						<div key={index}>{dish.shortName}</div>)}
+						<div key={index}>{capitalizeFirstLetter(dish.shortName)}</div>)}
 				</div>
 			</div>
 
