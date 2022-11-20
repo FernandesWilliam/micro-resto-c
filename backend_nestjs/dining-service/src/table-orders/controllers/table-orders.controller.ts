@@ -1,10 +1,10 @@
-import { Body, Controller, Get, HttpCode, Param, Post, Delete } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Param, Post, Delete, Query } from '@nestjs/common';
 import {
   ApiBody,
   ApiUnprocessableEntityResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
-  ApiTags, ApiOkResponse, ApiParam,
+  ApiTags, ApiOkResponse, ApiParam, ApiQuery,
 } from '@nestjs/swagger';
 
 import { StartOrderingDto } from '../dto/start-ordering.dto';
@@ -22,6 +22,7 @@ import { TableOrdersService } from '../services/table-orders.service';
 import { AddMenuItemDtoNotFoundException } from '../exceptions/add-menu-item-dto-not-found.exception';
 import { TableOrderAlreadyBilledException } from '../exceptions/table-order-already-billed.exception';
 import { PreparationDto } from '../dto/preparation.dto';
+import { TablePartitionQueryParams } from '../params/add-order-item.params';
 
 @ApiTags('tableOrders')
 @Controller('/tableOrders')
@@ -52,14 +53,21 @@ export class TableOrdersController {
   }
 
   @ApiParam({ name: 'tableOrderId' })
+  @ApiQuery({ name: 'tablePartitionNumber' })
   @ApiBody({ type: AddMenuItemDto })
   @ApiCreatedResponse({ type: TableOrder, description: 'The menu item has been successfully added to the table order.' })
   @ApiNotFoundResponse({ type: TableOrderIdNotFoundException, description: 'Table order not found' })
   @ApiNotFoundResponse({ type: AddMenuItemDtoNotFoundException, description: 'Inconsistent AddMenuItemDto with the MenuServiceProxy' })
   @ApiUnprocessableEntityResponse({ type: TableOrderAlreadyBilledException, description: 'TableOrder is already billed' })
   @Post(':tableOrderId')
-  async addMenuItemToTableOrder(@Param() getTableOrderParams: GetTableOrderParams, @Body() addMenuItemDto: AddMenuItemDto): Promise<TableOrder> {
-    return this.tableOrdersService.addOrderingLineToTableOrder(getTableOrderParams.tableOrderId, addMenuItemDto);
+  async addMenuItemToTableOrder(@Param() getTableOrderParams: GetTableOrderParams,
+                                @Query() addOrderItemQueryParams: TablePartitionQueryParams,
+                                @Body() addMenuItemDto: AddMenuItemDto): Promise<TableOrder> {
+    return this.tableOrdersService.addOrderingLineToTableOrder(
+      getTableOrderParams.tableOrderId,
+      addMenuItemDto,
+      addOrderItemQueryParams.tablePartitionNumber
+    );
   }
 
 
@@ -79,12 +87,17 @@ export class TableOrdersController {
   }
 
   @ApiParam({ name: 'tableOrderId' })
+  @ApiQuery({ name: 'tablePartitionNumber' })
   @ApiOkResponse({ type: TableOrder, description: 'The table has been successfully billed.' })
   @ApiNotFoundResponse({ type: TableOrderIdNotFoundException, description: 'Table order not found' })
   @ApiUnprocessableEntityResponse({ type: TableOrderAlreadyBilledException, description: 'TableOrder is already billed' })
   @HttpCode(200)
   @Post(':tableOrderId/bill')
-  async billTableOrder(@Param() getTableOrderParams: GetTableOrderParams): Promise<TableOrder> {
-    return this.tableOrdersService.billOrder(getTableOrderParams.tableOrderId);
+  async billTableOrder(@Param() getTableOrderParams: GetTableOrderParams,
+                       @Query() tablePartitionQueryParams: TablePartitionQueryParams): Promise<TableOrder> {
+    return this.tableOrdersService.billOrder(
+      getTableOrderParams.tableOrderId,
+      tablePartitionQueryParams.tablePartitionNumber
+    );
   }
 }

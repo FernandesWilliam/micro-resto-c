@@ -1,0 +1,19 @@
+.states {
+    font-family:  Impact, Charcoal, sans-serif;
+    font-size: 20px;
+    justify-content: space-evenly;
+}
+#state-display{
+    justify-content: space-evenly;
+    height: 60%;
+}
+.column-recap {
+    display: inline-block;
+    justify-content: space-evenly;
+    padding: 5%;
+    vertical-align: top;
+}
+
+#general-bill-button {
+    min-width: 400px;
+}
