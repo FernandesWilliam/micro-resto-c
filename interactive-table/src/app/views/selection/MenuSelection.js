@@ -24,7 +24,7 @@ export default function MenuSelection() {
 	}, [dispatch]);
 
 	const menu = useSelector(selectMenu);
-	const orderItems = useSelector(selectOrderItems);
+	const orderItems = useSelector(selectOrderItems).filter(item => !item.sentInPreparation);
 	const categories = [...new Set(menu.map(m => m.category))];
 
 	const [category, setCategory] = useState({
