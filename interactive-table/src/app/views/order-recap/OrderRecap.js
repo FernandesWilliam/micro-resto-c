@@ -32,7 +32,7 @@ export default function OrderRecap() {
 
 	const menu = useSelector(selectMenu);
 	const orderItems = useSelector(selectOrderItems);
-	const items = getItemDetails(orderItems);
+	const items = getItemDetails(orderItems).filter(item => !item.sentInPreparation);
 
 	const addItem = async (itemId, itemShortName) => {
 		dispatch(addItemToOrder({
