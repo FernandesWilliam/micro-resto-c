@@ -22,6 +22,7 @@ export default function Config() {
 	const [tablePartitionNumber, setTablePartitionNumber] = useState(1);
 
 	const validate = () => {
+        console.log(`The table has been configured in ${mode} mode`);
 		dispatch(configureTableInfo({
 			tableNumber: tableNumber,
 			tablePartitionNumber: tablePartitionNumber

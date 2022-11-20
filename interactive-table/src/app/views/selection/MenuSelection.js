@@ -33,6 +33,7 @@ export default function MenuSelection() {
 	});
 
 	useEffect(() => {
+        console.log(`Fetch menu item elements by Starter`);
 		setCategory({
 			name: 'STARTER',
 			menu: filterMenuByCategory(menu, 'STARTER')
